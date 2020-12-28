@@ -9,6 +9,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <!--Local style sheet-->
     <link rel="stylesheet" href="styles.css">
+    <script>
+            function sendajax() {
+                var password = document.getElementById("password").value;
+                var username = document.getElementById("username").value;
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "processLogin", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("username=" + username +"&password=" + password);
+                xmlhttp.onreadystatechange = function (){
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                        var result = xmlhttp.responseText.toString() ;
+                        alert("mess = |" + result + "|");
+                        if(result.localeCompare("yes") == 0){
+                            window.location.replace("customerHome.jsp");
+                        }
+                        else if(result.localeCompare("no") == 0){
+                            document.getElementById("show_response").innerHTML= "Wrong user data"; 
+                        }
+                        else{
+                            document.getElementById("show_response").innerHTML= "Something went wrong.. enter data again"; 
+                        }
+                    }
+                }
+            }
+            
+            
+        </script>
 </head>
 <body> 
     <!--The main content-->
@@ -31,17 +58,18 @@
                         </a>
                         <div class="input-group-wrap">
                             <div class="input-group">
-                                <input name="username" type="text" class="input" placeholder="Username" required>
+                                <input id = "username" name="username" type="text" class="input" placeholder="Username" required>
                                 <span class="bar"></span>
                             </div>
                         </div>
 
                         <div class="input-group">
-                            <input name="password" type="password" class="input" placeholder="Password" required>
+                            <input  id = "password" name="password" type="password" class="input" placeholder="Password" required>
                             <span class="bar"></span>
                         </div>
-
-                        <input type="submit" value = "Log in" class="btn form-btn btn-purple">
+                        <input id="submitSignin" type="button" value = "Sign in" class="btn form-btn btn-purple" onclick="sendajax()"/>
+                            <br><br><br>
+                        <label id="show_response"></label>
                     </form>   
                 </div>
             </div>

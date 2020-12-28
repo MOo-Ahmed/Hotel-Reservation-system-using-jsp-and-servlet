@@ -11,23 +11,30 @@
         <link rel="stylesheet" href="styles.css">
         <script>
             function sendajax() {
-                //alert("Hello");
                 var name = document.getElementById("name").value;
-                    var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.open("POST", "validateSignUp", true);
-                    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xmlhttp.send("name=" + name);
-                    xmlhttp.onreadystatechange = function (){
-                        //alert("Hi");
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                            document.getElementById("show_response").innerHTML=xmlhttp.responseText;
+                var username = document.getElementById("username").value;
+                var email = document.getElementById("email").value;
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "validateSignUp", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("name=" + name +"&username=" + username + "&email=" + email);
+                xmlhttp.onreadystatechange = function (){
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                        var result = xmlhttp.responseText.toString() ;
+                        if(result.localeCompare("yes") == 0){
+                            document.getElementById("show_response").innerHTML= "Successfully registered .. Find your password on your email .. If your receive it use it in Log in page"; 
+                        }
+                        else if(result.localeCompare("no") == 0){
+                            document.getElementById("show_response").innerHTML= "Username already exists"; 
+                        }
+                        else{
+                            document.getElementById("show_response").innerHTML= "Something went wrong.. enter data again"; 
                         }
                     }
+                }
             }
             
-            function submitSignUpForm(){
-                
-            }
+            
         </script>
     </head>
     <body> 
@@ -43,7 +50,7 @@
                         <div class="traveler-warp">
                             <img src="img/Traveler.jpg">
                         </div>
-                        <form action="" class="form Log-form" onsubmit="submitSignUpForm()">
+                        <form action="" class="form Log-form">
                             <br>
                             <label>Already registered ?</label>
                             <a href="Login.jsp" class="btn form-btn btn-purple">Login now
@@ -66,10 +73,10 @@
                                 </div>
 
                             </div>
-                            <input id="submitSignup" type="button" value = "ckeck" class="btn form-btn btn-purple" onclick="sendajax()"/>
-                            <br>
+                            <input id="submitSignup" type="button" value = "Sign up" class="btn form-btn btn-purple" onclick="sendajax()"/>
+                            <br><br><br>
                             <label id="show_response"></label>
-                            <input type="submit" value = "Sign up" class="btn form-btn btn-purple">
+                            <!--<input type="submit" value = "Sign up" class="btn form-btn btn-purple">!-->
                             
                         </form> 
                         
