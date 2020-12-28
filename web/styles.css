@@ -8,6 +8,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 /*Custom properties*/
 :root {
     --dark-color: #000000;
@@ -36,6 +37,11 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+label {
+    color: aliceblue;
+    margin-right: 1rem;
 }
 
 ul {
@@ -80,11 +86,11 @@ section {
     background-image: var(--gradient-color-alt);
 }
 
-.btn-red {
+.btn-purple {
     background-color: var(--light-purple);
 }
 
-.btn-red:hover {
+.btn-purple:hover {
     background-color: var(--purple-dark);
 }
 

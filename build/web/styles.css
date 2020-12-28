@@ -8,17 +8,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 /*Custom properties*/
 :root {
-    --dark-color: #2d2c2c;
-    --red-solid: #550101;
-    --red-transparent: rgb(255, 42, 42);
-    --red-transparent-alt: rgba(79, 10, 10, 0.5);
-    --red-light: #200429 ;
-    --yellow-light: #6f00ca;
+    --dark-color: #000000;
+    --light-purple: #6f00ca;
+    --black-transparent: rgba(7, 7, 7, 0.5);
+    --purple-transparent-alt: rgba(68, 10, 79, 0.5);
+    --purple-dark: #200429 ;
     --yellow-solid: #d9fd0b ;
-    --gradient-color: linear-gradient(to right, var(--yellow-light), var(--red-light));
-    --gradient-color-alt: linear-gradient(to right, var(--red-light), var(--yellow-light));
+    --gradient-color: linear-gradient(to right, var(--light-purple), var(--purple-dark));
+    --gradient-color-alt: linear-gradient(to right, var(--purple-dark), var(--light-purple));
     
 }
 
@@ -37,6 +37,11 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+label {
+    color: aliceblue;
+    margin-right: 1rem;
 }
 
 ul {
@@ -81,12 +86,12 @@ section {
     background-image: var(--gradient-color-alt);
 }
 
-.btn-red {
-    background-color: var(--red-solid);
+.btn-purple {
+    background-color: var(--light-purple);
 }
 
-.btn-red:hover {
-    background-color: var(--red-transparent);
+.btn-purple:hover {
+    background-color: var(--purple-dark);
 }
 
 .dots {
@@ -105,12 +110,12 @@ section {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: var(--red-transparent);
+    background-color: var(--light-purple);
     z-index: 100;
 }
 
 .header.active {
-    background-color: var(--red-solid);
+    background-color: var(--dark-color);
 }
 
 
@@ -152,7 +157,7 @@ section {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: var(--red-solid);
+    background-color: var(--purple-dark);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -202,7 +207,7 @@ section {
     left: 0;
     width: inherit;
     height: inherit;
-    background-color: var(--red-transparent-alt);
+    background-color: var(--black-transparent);
     z-index: -1;
 }
 
@@ -309,7 +314,7 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--red-transparent-alt);
+    background-color: var(--purple-transparent-alt);
     z-index: -1;
 }
 
@@ -390,7 +395,7 @@ section {
      left: 0;
      width: 100%;
      height: 100%;
-     background-color: var(--red-transparent-alt);
+     background-color: var(--purple-transparent-alt);
  }
 
 .room-image {
@@ -433,7 +438,7 @@ section {
     color: var(--yellow-solid);
 }
 
-.contact-content {
+.Log-content {
     display: flex;
     justify-content: center;
 }
@@ -448,13 +453,13 @@ section {
     object-fit: cover;
 }
 
-.contact-form{
+.Log-form{
     width: 100%;
     background-image: var(--gradient-color-alt);
     padding: 2.5rem;
 }
 
-.contact-form .input{
+.Log-form .input{
     display: block;
     background-color: transparent;
     color: #fff;
@@ -475,13 +480,13 @@ section {
     bottom: 0;
     width: 100%;
     height: 3px;
-    background-color: var(--red-light);
+    background-color: var(--light-purple);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.5s;
 }
 
-.contact-form .input:focus + .bar::after{
+.Log-form .input:focus + .bar::after{
     transform: scaleX(1);
 }
 
@@ -489,7 +494,7 @@ section {
 
 footer {
     padding: 5rem 0;
-    background-color: var(--red-transparent);
+    background-color: var(--dark-color);
     color: #fff;
 }
 
