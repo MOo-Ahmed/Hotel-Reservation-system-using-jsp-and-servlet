@@ -16,7 +16,7 @@
         <section class="Log">
             <div class="container">
                 <div class="Log-content">
-                    <form action="" class="form Log-form">
+                    <form action="processSearch" class="form Log-form">
                         <br>
                         <label>Find hotels to reserve in </label><br><br>
                         
@@ -61,6 +61,5 @@
         </section>
     </main>
 
-  
 </body>
 </html>

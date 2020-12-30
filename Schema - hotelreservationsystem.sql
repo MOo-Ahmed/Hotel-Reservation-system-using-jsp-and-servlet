@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2020 at 10:26 PM
+-- Generation Time: Dec 30, 2020 at 07:32 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.9
 
@@ -59,6 +59,34 @@ CREATE TABLE `hotel` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reservation`
+--
+
+CREATE TABLE `reservation` (
+  `id` int(11) NOT NULL,
+  `userID` int(11) NOT NULL,
+  `startDate` date NOT NULL,
+  `endDate` date NOT NULL,
+  `ts_createdAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review`
+--
+
+CREATE TABLE `review` (
+  `id` int(11) NOT NULL,
+  `userID` int(11) NOT NULL,
+  `hotelID` int(11) NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `rate` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `room`
 --
 
@@ -68,6 +96,18 @@ CREATE TABLE `room` (
   `hotelID` int(11) NOT NULL,
   `roomTypeID` int(11) NOT NULL,
   `price` decimal(10,0) NOT NULL DEFAULT 200
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roomreservation`
+--
+
+CREATE TABLE `roomreservation` (
+  `id` int(11) NOT NULL,
+  `reservationID` int(11) NOT NULL,
+  `roomID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -96,13 +136,6 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `name`, `email`, `username`, `password`) VALUES
-(1, 'Mohamed Ahmed Abdelnabey', 'engr2017@gmail.com', 'MOHAMED123', 'bP$7f@oZcY');
-
---
 -- Indexes for dumped tables
 --
 
@@ -128,12 +161,35 @@ ALTER TABLE `hotel`
   ADD KEY `hotel_fk_1` (`cityID`);
 
 --
+-- Indexes for table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reservation_FK1` (`userID`);
+
+--
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `review_FK1` (`userID`),
+  ADD KEY `review_FK2` (`hotelID`);
+
+--
 -- Indexes for table `room`
 --
 ALTER TABLE `room`
   ADD PRIMARY KEY (`id`),
   ADD KEY `room_fk1` (`hotelID`),
   ADD KEY `room_fk2` (`roomTypeID`);
+
+--
+-- Indexes for table `roomreservation`
+--
+ALTER TABLE `roomreservation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `roomRes_FK1` (`roomID`),
+  ADD KEY `roomRes_FK2` (`reservationID`);
 
 --
 -- Indexes for table `roomtype`
@@ -171,9 +227,27 @@ ALTER TABLE `hotel`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `reservation`
+--
+ALTER TABLE `reservation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `review`
+--
+ALTER TABLE `review`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `roomreservation`
+--
+ALTER TABLE `roomreservation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -186,7 +260,7 @@ ALTER TABLE `roomtype`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -205,11 +279,31 @@ ALTER TABLE `hotel`
   ADD CONSTRAINT `hotel_fk_1` FOREIGN KEY (`cityID`) REFERENCES `city` (`id`);
 
 --
+-- Constraints for table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD CONSTRAINT `reservation_FK1` FOREIGN KEY (`userID`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `review`
+--
+ALTER TABLE `review`
+  ADD CONSTRAINT `review_FK1` FOREIGN KEY (`userID`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `review_FK2` FOREIGN KEY (`hotelID`) REFERENCES `hotel` (`id`);
+
+--
 -- Constraints for table `room`
 --
 ALTER TABLE `room`
   ADD CONSTRAINT `room_fk1` FOREIGN KEY (`hotelID`) REFERENCES `hotel` (`id`),
   ADD CONSTRAINT `room_fk2` FOREIGN KEY (`roomTypeID`) REFERENCES `roomtype` (`id`);
+
+--
+-- Constraints for table `roomreservation`
+--
+ALTER TABLE `roomreservation`
+  ADD CONSTRAINT `roomRes_FK1` FOREIGN KEY (`roomID`) REFERENCES `room` (`id`),
+  ADD CONSTRAINT `roomRes_FK2` FOREIGN KEY (`reservationID`) REFERENCES `reservation` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

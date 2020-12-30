@@ -6,4 +6,3 @@ form to give a rating and a comment on the hotel
 - page to view user profile 
 
 - page to view user reservations and avail buttons to change or cancel the reservation
-
