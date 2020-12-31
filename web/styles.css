@@ -460,6 +460,8 @@ section {
     padding: 2.5rem;
 }
 
+
+
 .Log-form #si {
 	display: block;
 	width: 100%;
@@ -470,11 +472,14 @@ section {
 .Log-form .input{
     display: block;
     background-color: transparent;
-    color: #fff;
+    color: #fff; 
     font-weight: normal;
     border-bottom: 2px solid #fff;
     padding-left: 0;
 }
+
+
+
 
 .bar {
     display: block;
