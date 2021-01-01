@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 30, 2020 at 07:32 PM
+-- Generation Time: Jan 01, 2021 at 05:46 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.9
 
@@ -47,12 +47,28 @@ CREATE TABLE `country` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `guest`
+--
+
+CREATE TABLE `guest` (
+  `id` int(11) NOT NULL,
+  `userID` int(11) NOT NULL,
+  `hotelID` int(11) NOT NULL,
+  `phone` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `hotel`
 --
 
 CREATE TABLE `hotel` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `stars` tinyint(1) NOT NULL DEFAULT 3,
+  `distanceFromCC` double NOT NULL DEFAULT 10,
+  `includingMeals` varchar(100) NOT NULL DEFAULT 'Yes',
   `cityID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -65,9 +81,13 @@ CREATE TABLE `hotel` (
 CREATE TABLE `reservation` (
   `id` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
+  `hotelID` int(11) NOT NULL,
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
-  `ts_createdAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `ts_createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `isPaid` varchar(3) NOT NULL DEFAULT 'No',
+  `checkInDate` date DEFAULT NULL,
+  `checkOutDate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -154,6 +174,14 @@ ALTER TABLE `country`
   ADD UNIQUE KEY `name` (`name`);
 
 --
+-- Indexes for table `guest`
+--
+ALTER TABLE `guest`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `GUEST_FK1` (`userID`),
+  ADD KEY `GUEST_FK2` (`hotelID`);
+
+--
 -- Indexes for table `hotel`
 --
 ALTER TABLE `hotel`
@@ -165,7 +193,8 @@ ALTER TABLE `hotel`
 --
 ALTER TABLE `reservation`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `reservation_FK1` (`userID`);
+  ADD KEY `reservation_FK1` (`userID`),
+  ADD KEY `RESERVATION_FK2` (`hotelID`);
 
 --
 -- Indexes for table `review`
@@ -221,6 +250,12 @@ ALTER TABLE `country`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `guest`
+--
+ALTER TABLE `guest`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `hotel`
 --
 ALTER TABLE `hotel`
@@ -273,6 +308,13 @@ ALTER TABLE `city`
   ADD CONSTRAINT `city_fk_1` FOREIGN KEY (`countryID`) REFERENCES `country` (`id`);
 
 --
+-- Constraints for table `guest`
+--
+ALTER TABLE `guest`
+  ADD CONSTRAINT `GUEST_FK1` FOREIGN KEY (`userID`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `GUEST_FK2` FOREIGN KEY (`hotelID`) REFERENCES `hotel` (`id`);
+
+--
 -- Constraints for table `hotel`
 --
 ALTER TABLE `hotel`
@@ -282,6 +324,7 @@ ALTER TABLE `hotel`
 -- Constraints for table `reservation`
 --
 ALTER TABLE `reservation`
+  ADD CONSTRAINT `RESERVATION_FK2` FOREIGN KEY (`hotelID`) REFERENCES `hotel` (`id`),
   ADD CONSTRAINT `reservation_FK1` FOREIGN KEY (`userID`) REFERENCES `user` (`id`);
 
 --

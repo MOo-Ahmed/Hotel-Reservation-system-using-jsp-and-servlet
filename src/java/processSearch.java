@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(urlPatterns = {"/processSearch"})
 public class processSearch extends HttpServlet {
@@ -106,7 +107,11 @@ public class processSearch extends HttpServlet {
             String checkOutDate = request.getParameter("checkOutDate");
             int adults = Integer.parseInt(request.getParameter("adults"));
             int children = Integer.parseInt(request.getParameter("children"));
-            String r = getAllHotels(rooms, adults, children, checkInDate, checkOutDate, city);
+			HttpSession session = request.getSession(true);
+            session.setAttribute("checkIn", checkInDate);
+            session.setAttribute("checkOut", checkOutDate);
+                       
+		   String r = getAllHotels(rooms, adults, children, checkInDate, checkOutDate, city);
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");

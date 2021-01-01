@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(urlPatterns = {"/processLogin"})
 public class processLogin extends HttpServlet {
@@ -35,10 +36,11 @@ public class processLogin extends HttpServlet {
             statement.setString(1, username + "");
             statement.setString(2, PASSWORD + "");
 
+			HttpSession session = request.getSession(true);
             ResultSet RS = statement.executeQuery();
             if (RS.next()) {
-                out.print("yes");
-            } else {
+                session.setAttribute("userID", RS.getInt("id"));
+                out.print("yes");            } else {
                 out.print("no");
             }
             Con.close();

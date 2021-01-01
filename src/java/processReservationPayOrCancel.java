@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,97 +12,69 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-/**
- *
- * @author m
- */
-@WebServlet(urlPatterns = {"/processCheckInOut"})
-public class processCheckInOut extends HttpServlet {
-
-    private String checkIn(int reservationID, String today) throws ClassNotFoundException, SQLException {
-        String result = "" ;
+@WebServlet(urlPatterns = {"/processReservationPayOrCancel"})
+public class processReservationPayOrCancel extends HttpServlet {
+        
+    private String processPayment(int resID) throws ClassNotFoundException, SQLException{
+        String tempResult = "no", result = "yes" ;
         String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
         String user = "root";
         String password = "";
         Connection Con = null;
         Class.forName("com.mysql.jdbc.Driver");
         Con = DriverManager.getConnection(url, user, password);
-        String line = "UPDATE reservation SET checkInDate = ? WHERE id = ?";
+        String line = "UPDATE reservation SET reservation.isPaid = ? WHERE id = ?";
         PreparedStatement statement = Con.prepareStatement(line);
-        statement.setString(1, today + "");
-        statement.setInt(2, reservationID );
-
+        statement.setString(1, "Yes");
+        statement.setInt(2, resID);
         int s = statement.executeUpdate();
-        if (s > 0) {
-            result = "yes";
-        } else {
-            result = "no";
-        }
+        if(s <= 0)  result = tempResult ;   
         Con.close();
-
         return result ;
     }
-
-    private String checkOut(int reservationID, String today) throws ClassNotFoundException, SQLException {
-        String result = "" ;
+    
+    private String processCancel(int resID) throws ClassNotFoundException, SQLException{
+        String tempResult = "no", result = "yes" ;
         String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
         String user = "root";
         String password = "";
         Connection Con = null;
         Class.forName("com.mysql.jdbc.Driver");
         Con = DriverManager.getConnection(url, user, password);
-        String line = "SELECT isPaid FROM reservation WHERE id = ?";
+        String line = "DELETE FROM reservation WHERE reservation.id = ?";
         PreparedStatement statement = Con.prepareStatement(line);
-        statement.setString(1, reservationID + "");
-        ResultSet RS = statement.executeQuery();
-        RS.next();
-        if (RS.getString("isPaid").compareToIgnoreCase("Yes") == 0) {
-            line = "UPDATE reservation SET checkOutDate = ? WHERE id = ?";
-            statement = Con.prepareStatement(line);
-            statement.setString(1, today);
-            statement.setInt(2, reservationID);
-            int s = statement.executeUpdate();
-            if (s > 0) {
-                result = "yes";
-            } else {
-                result = "no";
-            }
-        }
-        else{
-            result = "no";
-        }
+        statement.setInt(1, resID);
+        int s = statement.executeUpdate();
+        if(s <= 0)  result = tempResult ;   
         Con.close();
         return result ;
     }
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            int reservationID = Integer.parseInt(request.getParameter("reservationID"));
-            String today = request.getParameter("date");
-            String check = request.getParameter("check");
-            if(check.compareToIgnoreCase("in") == 0){
-                out.print(checkIn(reservationID, today));
+            int resID = Integer.parseInt(request.getParameter("reservationID"));
+            String operation = request.getParameter("operation");
+            if(operation.compareToIgnoreCase("pay") == 0){
+                out.print(processPayment(resID));
             }
-            else if(check.compareTo("out") == 0){
-                out.print(checkOut(reservationID, today));
+            else if(operation.compareToIgnoreCase("cancel") == 0){
+                out.print(processCancel(resID));
             }
-
         }
     }
 
+  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(processCheckInOut.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processViewReservations.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(processCheckInOut.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processViewReservations.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -114,13 +85,13 @@ public class processCheckInOut extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(processCheckInOut.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processViewReservations.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(processCheckInOut.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processViewReservations.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-
+   
     @Override
     public String getServletInfo() {
         return "Short description";

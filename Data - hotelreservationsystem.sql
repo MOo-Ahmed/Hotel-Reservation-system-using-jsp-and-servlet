@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 30, 2020 at 07:31 PM
+-- Generation Time: Jan 01, 2021 at 05:47 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.9
 
@@ -57,25 +57,28 @@ INSERT INTO `country` (`id`, `name`) VALUES
 -- Dumping data for table `hotel`
 --
 
-INSERT INTO `hotel` (`id`, `name`, `cityID`) VALUES
-(1, 'Ramses Hilton Hotel & Casino', 1),
-(2, 'Grand Nile Tower', 1),
-(3, 'Hotel 3', 2),
-(4, 'Hotel 4', 2),
-(5, 'Hotel 5', 3),
-(6, 'Hotel 6', 3),
-(7, 'Hotel 7', 4),
-(8, 'Hotel 8', 4),
-(9, 'Hotel 9', 1),
-(10, 'Hotel 10', 2);
+INSERT INTO `hotel` (`id`, `name`, `stars`, `distanceFromCC`, `includingMeals`, `cityID`) VALUES
+(1, 'Ramses Hilton Hotel & Casino', 4, 2, 'Yes', 1),
+(2, 'Grand Nile Tower', 5, 4, 'No', 1),
+(3, 'Hotel 3', 3, 10, 'Yes', 2),
+(4, 'Hotel 4', 4, 10, 'Yes', 2),
+(5, 'Hotel 5', 4, 10, 'Yes', 3),
+(6, 'Hotel 6', 3, 10, 'Yes', 3),
+(7, 'Hotel 7', 3, 10, 'Yes', 4),
+(8, 'Hotel 8', 5, 10, 'Yes', 4),
+(9, 'Hotel 9', 4, 10, 'Yes', 1),
+(10, 'Hotel 10', 3, 10, 'Yes', 2);
 
 --
 -- Dumping data for table `reservation`
 --
 
-INSERT INTO `reservation` (`id`, `userID`, `startDate`, `endDate`, `ts_createdAt`) VALUES
-(1, 1, '2020-11-01', '2020-11-05', '2020-12-30 13:56:35'),
-(2, 1, '2020-12-31', '2021-01-01', '2020-12-30 13:56:35');
+INSERT INTO `reservation` (`id`, `userID`, `hotelID`, `startDate`, `endDate`, `ts_createdAt`, `isPaid`, `checkInDate`, `checkOutDate`) VALUES
+(1, 1, 1, '2020-11-01', '2020-11-05', '2020-12-30 13:56:35', 'No', '2021-01-03', NULL),
+(2, 1, 2, '2020-12-31', '2021-01-01', '2020-12-30 13:56:35', 'No', NULL, NULL),
+(4, 1, 1, '2020-12-31', '2021-01-01', '2021-01-01 13:29:42', 'No', NULL, NULL),
+(5, 3, 1, '2022-01-01', '2022-01-07', '2021-01-01 13:29:42', 'Yes', NULL, NULL),
+(7, 2, 1, '2021-06-01', '2021-06-08', '2021-01-01 13:29:42', 'No', NULL, NULL);
 
 --
 -- Dumping data for table `review`
