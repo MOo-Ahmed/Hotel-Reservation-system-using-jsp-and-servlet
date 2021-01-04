@@ -69,7 +69,8 @@ CREATE TABLE `hotel` (
   `stars` tinyint(1) NOT NULL DEFAULT 3,
   `distanceFromCC` double NOT NULL DEFAULT 10,
   `includingMeals` varchar(100) NOT NULL DEFAULT 'Yes',
-  `cityID` int(11) NOT NULL
+  `cityID` int(11) NOT NULL,
+  `locationUrl` varchar(255) null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -115,7 +116,8 @@ CREATE TABLE `room` (
   `name` varchar(20) NOT NULL,
   `hotelID` int(11) NOT NULL,
   `roomTypeID` int(11) NOT NULL,
-  `price` decimal(10,0) NOT NULL DEFAULT 200
+  `price` decimal(10,0) NOT NULL DEFAULT 200,
+  `locationUrl` varchar(255) null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
