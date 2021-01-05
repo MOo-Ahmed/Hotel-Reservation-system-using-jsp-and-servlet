@@ -60,7 +60,7 @@ public class processSearch extends HttpServlet {
         String div = "<div><h3>" + hotelName + "  -  " + exPrice +  " Pounds per night" + 
                 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 + " Rate : " + rate + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  " + stars + " STARS</h3><br>" ;
-        div += "<form class='form Log-form' action='HotelProfile.jsp'><input name = 'hotelID' type='hidden' value=" + hotelID + ">" ;
+        div += "<form class='form Log-form' action='viewHotel'><input name = 'hotelID' type='hidden' value=" + hotelID + ">" ;
         div += "<img id ='si' src = 'img/h" + hotelID + ".jpg'>" ;
         div += "<br><br><input type='submit' value='View Hotel' class='btn form-btn btn-purple'>" ;
         div += "</form></div><br><br><br>" ;
