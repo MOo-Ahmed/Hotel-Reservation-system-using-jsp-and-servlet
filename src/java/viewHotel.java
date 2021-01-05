@@ -50,16 +50,31 @@ public class viewHotel extends HttpServlet {
             String hotelName = RS.getString("name");
             String city = RS.getString("city");
             String country = RS.getString("country");
+            //String lat = String.valueOf(RS.getDouble("latitude"));
+            //String lng = String.valueOf(RS.getDouble("longitude"));
             session.setAttribute("hotelName", hotelName);
-            hotelData = "<div>"
-                   + "<h1 class='heading'>" + hotelName + "</h1>"
-                   + "<h3>" + city + ", " + country + "</h3>"
-                   + "<img class = 'hotel-image' src = 'img/h" + hotelID + ".jpg'>"
-                   + "</div>";
+            hotelData = "<div class='booking'>"
+                    + "<h1 align='center' class='title'>" + hotelName + "</h1>"
+                    + "<h3 align='center' class='subtitle'>" + city + ", " + country + "</h3>"
+                    + "<div> "
+                    + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_1.jpg'>"
+                    + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_2.jpg'>"
+                    + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_3.jpg'>"
+                    + "</div>"
+                    + "<div id='googleMap' style='width:400px;height:400px;'></div>"
+                    + "<script>"
+                    + "function initMap() {\n"
+                    + "var location= {lat: 0, lng: 0};\n"
+                    + "var map = new google.maps.Map(document.getElementById('googleMap'),{zoom: 4, center: location});\n"
+                    + "var marker = new google.maps.Marker({position: location, map: googleMap});\n"
+                    + "}"
+                    + "</script>"
+                    + "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB4F9aEvkmbzdyUiWIFN7BR5Yr7RKAobqw&callback=initMap'></script>"
+                    + "</div>";
         }
         //retrieving all the available rooms
         line = "SELECT room.id as id, room.name as name, "
-                + "roomtype.name as roomType, room.price as price "
+                + "roomtype.name as roomType, price, facilities "
                 + "FROM room inner join roomtype on room.roomTypeID = roomtype.id "
                 + "where room.id not in (SELECT roomreservation.roomID as id "
                 + "from roomreservation inner join reservation "
@@ -75,14 +90,17 @@ public class viewHotel extends HttpServlet {
             roomsCounter++;
             int roomID = RS.getInt("id");
             roomsData += "<li>"
-                    + "<img class = 'room-image' src = 'img/room" + ((roomID%4)+1) + ".jpg'>"
-                    + "<span class = 'room-price'>" + RS.getString("name") + "</span>"
-                    + "<span class = 'room-price'>Type: " + RS.getString("roomType") + "</span>"
-                    + "<span class = 'room-price'>Price: " + RS.getInt("price") + "EGP per night</span>"
-                    + "<span class = 'paragraph'>"
-                    + "<input name = 'names' type='checkbox' value='" + roomID + "' class = 'rooms-btn'>"
-                    + " Reserve room</span>"
-                    + "</li>"; 
+                + "<img class = 'room-image' src = 'img/H" + hotelID + "_R" + (((roomID-1)%5)+1) + ".jpg'>"
+                + "<span class = 'room-price'>" + RS.getString("name") + "</span>"
+                + "<span class = 'room-price'>Type: " + RS.getString("roomType") + "</span>"
+                + "<span class = 'room-price'>Price: " + RS.getInt("price") + "$ per night</span>"
+                + "<span class = 'paragraph'>Facilities:<br>" + RS.getString("facilities") + "</span>"
+                + "<br><br>"
+                + "<span class = 'paragraph'>"
+                + "<input name = 'names' type='checkbox' value='" + roomID + "' class = 'rooms-btn'>"
+                + " Reserve room</span>"
+                + "<br><br>"
+                + "</li>"; 
         }
         roomsData = "<div class = 'rooms'>"
                 + "<form action='makeReservation' class='form Log-form'>"
