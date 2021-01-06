@@ -73,10 +73,10 @@ INSERT INTO `hotel` (`id`, `name`, `stars`, `distanceFromCC`, `includingMeals`, 
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `username`, `password`) VALUES
-(1, 'Mohamed Ahmed Abdelnabey', 'engr2017@gmail.com', 'MOHAMED123', 'bP$7f@oZcY'),
-(2, 'Kareem Ahmed Eltemsah', 'temsah@gmail.com', 'K-Temsah11', '100100'),
-(3, 'Yousef Osama Sayed', 'y.osama@gamil.com', 'Yousef Elkady', '666666');
+INSERT INTO `user` (`id`, `name`, `email`, `username`, `password`, `phoneNumber`) VALUES
+(1, 'Mohamed Ahmed Abdelnabey', 'engr2017@gmail.com', 'MOHAMED123', 'bP$7f@oZcY', '+201001001234'),
+(2, 'Kareem Ahmed Eltemsah', 'temsah@gmail.com', 'K-Temsah11', '100100', '+201101001234'),
+(3, 'Yousef Osama Sayed', 'y.osama@gamil.com', 'Yousef Elkady', '666666', '+201201001234');
 
 --
 -- Dumping data for table `reservation`

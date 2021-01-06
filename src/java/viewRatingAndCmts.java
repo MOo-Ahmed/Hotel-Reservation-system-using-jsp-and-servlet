@@ -18,14 +18,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Kareem_Eltemsah
  */
-@WebServlet(urlPatterns = {"/makeReview"})
-public class makeReview extends HttpServlet {
+@WebServlet(urlPatterns = {"/viewRatingAndCmts"})
+public class viewRatingAndCmts extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,25 +40,55 @@ public class makeReview extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession(true);
-            String userID = session.getAttribute("userID").toString();
-            String hotelID = session.getAttribute("hotelID").toString();
-            String comment = request.getParameter("comment");
-            String rate = request.getParameter("rate");
+            String hotelID = request.getParameter("hotelID");
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
             String user = "root";
             String password = "";
             Connection Con = null;
             Class.forName("com.mysql.jdbc.Driver");
             Con = DriverManager.getConnection(url, user, password);
-            String line = "INSERT INTO review (userID, hotelID, comment, rate) VALUES (? , ? , ?, ?);";
+            String line = "SELECT review.id as id, user.name as user, "
+                    + "review.comment as comment, review.rate as rate "
+                    + "from review inner join user on review.userID = user.id "
+                    + "where review.hotelID = ?";
             PreparedStatement statement = Con.prepareStatement(line);
-            statement.setString(1, userID + "");
-            statement.setString(2, hotelID + "");
-            statement.setString(3, comment + "");
-            statement.setString(4, rate + "");
-            if (statement.execute());
-                response.sendRedirect("viewHotel?hotelID=" + hotelID);
+            statement.setString(1, hotelID + "");
+            ResultSet RS = statement.executeQuery();
+            String output = "";
+            while (RS.next()) {
+                output += "<li>"
+                    + "<span class = 'paragraph'>" + RS.getString("user") + ":<br></span>"
+                    + "<span class = 'paragraph'>" + RS.getString("comment") + "</span>"
+                    + "<span class = 'paragraph'>" + RS.getInt("rate") + "</span>"
+                    + "</li><br>";
+            }
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>users search result</title>");
+            out.println("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'>");
+            out.println("<link rel='stylesheet' href='styles.css'>");        
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<main>");
+            out.println("<section class='Log'>");
+            out.println("<div class='container'>");
+            
+            out.println("<div class='booking'>"
+                    + "<br>"
+                    + "<h3 class='main-heading'>Ratings and comments</h3>"
+                    + "<br><br>"
+                    + "<UL>" 
+                    + output
+                    + "</UL>"
+                    + "</div>");
+            
+            out.println("</div>");
+            out.println("</section>");
+            out.println("</main>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -78,9 +107,9 @@ public class makeReview extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(makeReview.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(viewRatingAndCmts.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(makeReview.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(viewRatingAndCmts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -98,9 +127,9 @@ public class makeReview extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(makeReview.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(viewRatingAndCmts.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(makeReview.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(viewRatingAndCmts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

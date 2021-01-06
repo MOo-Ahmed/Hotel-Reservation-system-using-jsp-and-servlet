@@ -71,7 +71,8 @@ CREATE TABLE `hotel` (
   `includingMeals` varchar(100) NOT NULL DEFAULT 'Yes',
   `cityID` int(11) NOT NULL,
   `latitude` double,
-  `longitude` double
+  `longitude` double,
+  `contacts` varchar(50) null 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -155,7 +156,8 @@ CREATE TABLE `user` (
   `name` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
   `username` varchar(40) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `password` varchar(20) NOT NULL,
+  `phoneNumber` varchar(15) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

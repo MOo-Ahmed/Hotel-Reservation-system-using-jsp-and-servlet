@@ -31,7 +31,7 @@ public class viewHotel extends HttpServlet {
         //retreiving hotel data
         String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
         String user = "root";
-        String password = "root";
+        String password = "";
         Connection Con = null;
         Class.forName("com.mysql.jdbc.Driver");
         Con = DriverManager.getConnection(url, user, password);
@@ -54,8 +54,8 @@ public class viewHotel extends HttpServlet {
             //String lng = String.valueOf(RS.getDouble("longitude"));
             session.setAttribute("hotelName", hotelName);
             hotelData = "<div class='booking'>"
-                    + "<h1 align='center' class='title'>" + hotelName + "</h1>"
-                    + "<h3 align='center' class='subtitle'>" + city + ", " + country + "</h3>"
+                    + "<h1 align='center' class='heading'>" + hotelName + "</h1>"
+                    + "<h3 align='center' class='sub-heading'>" + city + ", " + country + "</h3>"
                     + "<div> "
                     + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_1.jpg'>"
                     + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_2.jpg'>"
@@ -116,7 +116,6 @@ public class viewHotel extends HttpServlet {
         line = "SELECT review.id as id, user.name as user, "
                 + "review.comment as comment, review.rate as rate "
                 + "from review inner join user on review.userID = user.id "
-                + "inner join hotel on review.hotelID = hotel.id "
                 + "where review.hotelID = ?";
         statement = Con.prepareStatement(line);
         statement.setString(1, hotelID + "");
