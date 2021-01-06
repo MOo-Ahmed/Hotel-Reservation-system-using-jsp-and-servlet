@@ -32,7 +32,7 @@ public class processSearch extends HttpServlet {
                 + " AVG(room.price) AS exPrice, AVG (review.rate) AS RATE, hotel.name AS HotelName, hotel.stars AS HotelStars "
                 + "FROM hotel INNER JOIN room "
                 + " ON hotel.id = room.hotelID AND hotel.cityID IN (SELECT city.id FROM city WHERE LOWER(city.name) LIKE ?) "
-                + " INNER JOIN review ON review.hotelID = hotel.id GROUP BY (hotel.id)";
+                + " LEFT JOIN review ON review.hotelID = hotel.id GROUP BY (hotel.id)";
         PreparedStatement statement = Con.prepareStatement(line);
         //statement.setString(1, checkIn);
         statement.setString(1, city);
@@ -60,7 +60,7 @@ public class processSearch extends HttpServlet {
         String div = "<div><h3>" + hotelName + "  -  " + exPrice +  " Pounds per night" + 
                 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 + " Rate : " + rate + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  " + stars + " STARS</h3><br>" ;
-        div += "<form class='form Log-form' action='HotelProfile.jsp'><input name = 'hotelID' type='hidden' value=" + hotelID + ">" ;
+        div += "<form class='form Log-form' action='viewHotel'><input name = 'hotelID' type='hidden' value=" + hotelID + ">" ;
         div += "<img id ='si' src = 'img/h" + hotelID + ".jpg'>" ;
         div += "<br><br><input type='submit' value='View Hotel' class='btn form-btn btn-purple'>" ;
         div += "</form></div><br><br><br>" ;

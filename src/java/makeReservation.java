@@ -48,28 +48,34 @@ public class makeReservation extends HttpServlet {
             List roomsIDs = Arrays.asList(request.getParameterValues("names"));
             HttpSession session = request.getSession(true);
             String userID = session.getAttribute("userID").toString();
+            String hotelID = session.getAttribute("hotelID").toString();
             String checkIn = session.getAttribute("checkIn").toString();
             String checkOut = session.getAttribute("checkOut").toString();
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
             String user = "root";
-            String password = "root";
+            String password = "";
             Connection Con = null;
             Class.forName("com.mysql.jdbc.Driver");
             Con = DriverManager.getConnection(url, user, password);
             //inserting reservation record
-            String line = "INSERT INTO reservation (userID, startDate, endDate) VALUES (? , ? , ?);";
+            String line = "INSERT INTO reservation (userID, hotelID, startDate, endDate, isPaid) "
+                    + "VALUES (? , ?, ? , ?, ?);";
             PreparedStatement statement = Con.prepareStatement(line);
             statement.setString(1, userID + "");
-            statement.setString(2, checkIn + "");
-            statement.setString(3, checkOut + "");
+            statement.setString(2, hotelID + "");
+            statement.setString(3, checkIn + "");
+            statement.setString(4, checkOut + "");
+            statement.setString(5, "No");
             statement.execute();
             //getting the id of the record we just
             line = "select id from reservation "
-                    + "where userID=? and startDate=? and endDate=?";
+                    + "where userID=? and hotelID=? and startDate=? and endDate=? and isPaid=?";
             statement = Con.prepareStatement(line);
             statement.setString(1, userID + "");
-            statement.setString(2, checkIn + "");
-            statement.setString(3, checkOut + "");
+            statement.setString(2, hotelID + "");
+            statement.setString(3, checkIn + "");
+            statement.setString(4, checkOut + "");
+            statement.setString(5, "No");
             ResultSet RS = statement.executeQuery();
             
             int reservationID = 0;
@@ -95,16 +101,15 @@ public class makeReservation extends HttpServlet {
                     totalPrice += RS.getInt("price");
                 }
             }
-            String output = "Hotel: " + session.getAttribute("hotelName") + "\n"
-                    + "Number of rooms: " + roomsIDs.size() + "\n"
+            String output = "Hotel: " + session.getAttribute("hotelName") + "<br>"
+                    + "Number of rooms: " + roomsIDs.size() + "<br>"
                     + "Rooms names: ";
             for (int i=0 ; i<roomNames.size()-1 ; i++)
                 output += roomNames.get(i) + ", ";
-            output += roomNames.get(roomNames.size()-1) + "\n"
-                    + "CheckIn date: " + checkIn + "\n"
-                    + "CheckOut date: " + checkOut + "\n"
+            output += roomNames.get(roomNames.size()-1) + "<br>"
+                    + "CheckIn date: " + checkIn + "<br>"
+                    + "CheckOut date: " + checkOut + "<br>"
                     + "Total Price: " + (totalPrice);
-            
                 
             
             out.println("<!DOCTYPE html>");
@@ -117,12 +122,10 @@ public class makeReservation extends HttpServlet {
             out.println("<main>");
             out.println("<section class='Log'>");
             out.println("<div class='container'>");
-            out.println("<div class=\"main-heading\">"
-                    + "<h1 class=\"title\">Reservation have bean made</h1>"
-                    + "<p>" + output + "</P>"
-                    + "</div>"
-                    + "<a href=\"customerHome.jsp\" class=\"btn btn-gradient\">Go back to search page"
-                    + "<span class=\"dots\"><i class=\"fas fa-ellipsis-h\"></i></span>"
+            out.println("<h1 align='center' class='heading'>Reservation has bean made</h1>"
+                    + "<p align='center' class='room-price'>" + output + "</P>"
+                    + "<a href='customerHome.jsp' class='btn btn-gradient'>Go back to search page"
+                    + "<span class='dots'><i class='fas fa-ellipsis-h'></i></span>"
                     + "</a>");
             out.println("</div>");
             out.println("</section>");

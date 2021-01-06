@@ -18,14 +18,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Kareem_Eltemsah
  */
-@WebServlet(urlPatterns = {"/makeReview"})
-public class makeReview extends HttpServlet {
+@WebServlet(urlPatterns = {"/processSearchUsers"})
+public class processSearchUsers extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,25 +40,56 @@ public class makeReview extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession(true);
-            String userID = session.getAttribute("userID").toString();
-            String hotelID = session.getAttribute("hotelID").toString();
-            String comment = request.getParameter("comment");
-            String rate = request.getParameter("rate");
+            String name = request.getParameter("name").toLowerCase();
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
             String user = "root";
             String password = "";
             Connection Con = null;
             Class.forName("com.mysql.jdbc.Driver");
             Con = DriverManager.getConnection(url, user, password);
-            String line = "INSERT INTO review (userID, hotelID, comment, rate) VALUES (? , ? , ?, ?);";
+            String line = "SELECT name, email, phoneNumber"
+                        + " FROM user WHERE (name) like '%" + name + "%';";
             PreparedStatement statement = Con.prepareStatement(line);
-            statement.setString(1, userID + "");
-            statement.setString(2, hotelID + "");
-            statement.setString(3, comment + "");
-            statement.setString(4, rate + "");
-            if (statement.execute());
-                response.sendRedirect("viewHotel?hotelID=" + hotelID);
+            ResultSet RS = statement.executeQuery();
+            
+            String output = "";
+            int counter = 1;
+            while (RS.next()) {
+                output += "<li>"
+                + "<span class = 'room-price'>user " + (counter++) + "</span>"
+                + "<span class = 'room-price'>Name: " + RS.getString("name") + "</span>"
+                + "<span class = 'room-price'>Email: " + RS.getString("email") + "</span>"
+                + "<span class = 'room-price'>Phone: " + RS.getString("phoneNumber") + "</span>"
+                + "<br><br>"
+                + "</li>";
+            }
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>users search result</title>");
+            out.println("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'>");
+            out.println("<link rel='stylesheet' href='styles.css'>");        
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<main>");
+            out.println("<section class='Log'>");
+            out.println("<div class='container'>");
+            
+            out.println("<div class='booking'>"
+                    + "<br>"
+                    + "<h3 class='main-heading'>users have (" + name + ") in their name</h3>"
+                    + "<br><br>"
+                    + "<UL>" 
+                    + output
+                    + "</UL>"
+                    + "</div>");
+            
+            out.println("</div>");
+            out.println("</section>");
+            out.println("</main>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -78,9 +108,9 @@ public class makeReview extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(makeReview.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processSearchUsers.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(makeReview.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processSearchUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -98,9 +128,9 @@ public class makeReview extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(makeReview.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processSearchUsers.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(makeReview.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processSearchUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
