@@ -10,6 +10,9 @@
         <!--Local style sheet-->
         <link rel="stylesheet" href="styles.css">
 
+        <script>
+
+        </script>
         <style>
             table, tr{
                 border: 1px solid white;
@@ -17,6 +20,20 @@
 
             th, td {
                 padding: 10px;
+            }
+
+            #notifications {
+                margin-top: 0px;
+            }
+
+            .notification{
+                line-height : 28px;
+                font-weight : bold ;
+                text-align : left ;
+                margin-left: 100px;
+                margin-right: 100px;
+                margin-top: 10px;
+                margin-bottom: 10px;
             }
         </style>
         <script>
@@ -36,11 +53,9 @@
                         alert("mess = |" + result + "|");
                         if (result.localeCompare("yes") == 0) {
                             document.getElementById("show_response1").innerHTML = "Check in Done !";
-                        }
-                        else if (result.localeCompare("no") == 0) {
+                        } else if (result.localeCompare("no") == 0) {
                             document.getElementById("show_response1").innerHTML = "Wrong Reservation ID";
-                        }
-                        else {
+                        } else {
                             document.getElementById("show_response1").innerHTML = "Something went wrong.. enter data again";
                         }
                     }
@@ -74,11 +89,9 @@
                         //alert("mess = |" + result + "|");
                         if (result.localeCompare("yes") == 0) {
                             document.getElementById("show_response2").innerHTML = "Check out Done !";
-                        }
-                        else if (result.localeCompare("no") == 0) {
+                        } else if (result.localeCompare("no") == 0) {
                             document.getElementById("show_response2").innerHTML = "Wrong Reservation ID or payment isn't done";
-                        }
-                        else {
+                        } else {
                             document.getElementById("show_response2").innerHTML = "Something went wrong.. enter data again";
                         }
                     }
@@ -86,7 +99,7 @@
             }
             function sendajaxViewCurrRes() {
                 var hotelID = document.getElementById("hotelID").value;
-                var view = "current" ;
+                var view = "current";
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "processViewReservations", true);
                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -104,7 +117,7 @@
                 var hotelID = document.getElementById("hotelID").value;
                 var from = document.getElementById("fromDate").value;
                 var to = document.getElementById("toDate").value;
-                var view = "specific" ;
+                var view = "specific";
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "processViewReservations", true);
                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -130,11 +143,9 @@
                         //alert("mess = |" + result + "|");
                         if (result.localeCompare("yes") == 0) {
                             sendajaxViewCurrRes();
-                        }
-                        else if (result.localeCompare("no") == 0) {
+                        } else if (result.localeCompare("no") == 0) {
                             document.getElementById("show_response4").innerHTML = "Already paid";
-                        }
-                        else {
+                        } else {
                             document.getElementById("show_response4").innerHTML = "Something went wrong.. try again";
                         }
                     }
@@ -144,31 +155,82 @@
                 var reservationID = id;
                 alert(reservationID);
                 var operation = "cancel";
+                var notify = "false";
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "processReservationPayOrCancel", true);
                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xmlhttp.send("reservationID=" + reservationID + "&operation=" + operation);
+                xmlhttp.send("reservationID=" + reservationID + "&operation=" + operation + "&notify=" + notify);
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var result = xmlhttp.responseText.toString();
-                        //alert("mess = |" + result + "|");
                         if (result.localeCompare("yes") == 0) {
                             sendajaxViewCurrRes();
-                        }
-                        else if (result.localeCompare("no") == 0) {
+                        } else if (result.localeCompare("no") == 0) {
                             document.getElementById("show_response4").innerHTML = "Already cancelled";
-                        }
-                        else {
+                        } else {
                             document.getElementById("show_response4").innerHTML = "Something went wrong.. try again";
                         }
                     }
                 }
             }
 
+            function sendajaxfetchNotifications() {
+                var hotelID = document.getElementById("hotelID").value;
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "processNotifications", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("hotelID=" + hotelID);
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var result = xmlhttp.responseText.toString();
+                        //var count = 3 ;
+                        //document.getElementById("notifCount").innerHTML = "&nbsp;&nbsp;" + count;
+                        document.getElementById("notifications").innerHTML = result;
+
+                    }
+                }
+            }
         </script>
     </head>
     <body> 
+        <%
+            int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+        %>
         <main>
+            <header class="header">
+                <div class="container">
+                    <nav class="nav">
+                        <div class="hamburger-menu" onclick="sendajaxfetchNotifications()">
+
+                            <i class="fas fa-bell"><label id='notifCount'></label></i>
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div id ='notifications'  class="nav-list">
+
+                        </div>
+
+                    </nav>
+                </div>
+            </header>
+            <br><br><br>
+            <div>
+                <form action="hotelUpdate.jsp">
+                    <input type="hidden" name="hotelID" value=<%=hotelID%>> 
+                    <input type="submit" value="Update Hotel data" class="btn form-btn btn-purple">
+                </form>
+            </div>
+            <div>
+                <form action="viewRatingAndCmts">
+                    <input type="hidden" name="hotelID" value=<%=hotelID%>> 
+                    <input type="submit" value="View Hotel Reviews" class="btn form-btn btn-purple">
+                </form>
+            </div>
+            <div>
+                <form action="searchUsers.jsp">
+                    <input type="submit" value="Search for client" class="btn form-btn btn-purple">
+                </form>
+            </div>
+            <br><br><br>
             <section class="Log">
                 <div class="container">
                     <h5 class="section-head">
@@ -186,9 +248,7 @@
                                     <span class="bar"></span>
                                 </div>
                             </div>
-                            <%
-                                int hotelID = 1;
-                            %>    
+
 
                             <input id='hotelID' type = "hidden" name="hotelID" value = <%=hotelID%>>
 
@@ -252,7 +312,7 @@
                             <input id='hotelID' type = "hidden" name="hotelID" value = <%=hotelID%>>
                             <input id='fromDate' type='date' Placeholder ='From' name='from'  class="input" required> 
                             <input id='toDate' type='date' Placeholder ='To' name='to'  class="input" required>
-                            
+
                             <input id="submitViewSpecificReservations" type="button" value = "View reservations" class="btn form-btn btn-purple" onclick="sendajaxViewSpecificRes()"/>
                             <br><br><br>
                             <div id="show_response5" style="color:white ;"></div>
@@ -263,7 +323,6 @@
                 </div>
             </section>
         </main>
-
-
     </body>
+    <script src ="script.js"></script>
 </html>

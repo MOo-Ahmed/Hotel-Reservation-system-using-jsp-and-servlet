@@ -19,10 +19,10 @@ and open the template in the editor.
         <main>
             <div class="container">
                 <br>
+            <h3 class="heading" align="center">Search for clients </h3><br>
+                <br>
                 <form action="processSearchUsers" class="form Log-form">
                     <br>
-                    <label>Search for clients </label><br><br>
-
                     <div class="input-group">
                         <label>User Name </label>
                         <input name="name" type="text" class="input" placeholder="(eg.Ahmed)" required>

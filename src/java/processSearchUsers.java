@@ -53,15 +53,12 @@ public class processSearchUsers extends HttpServlet {
             ResultSet RS = statement.executeQuery();
             
             String output = "";
-            int counter = 1;
             while (RS.next()) {
-                output += "<li>"
-                + "<span class = 'room-price'>user " + (counter++) + "</span>"
-                + "<span class = 'room-price'>Name: " + RS.getString("name") + "</span>"
-                + "<span class = 'room-price'>Email: " + RS.getString("email") + "</span>"
-                + "<span class = 'room-price'>Phone: " + RS.getString("phoneNumber") + "</span>"
-                + "<br><br>"
-                + "</li>";
+                output += "<tr>"
+                + "<td align='center'><span style=\"color:white ;\">" + RS.getString("name") + "</span></td>"
+                + "<td align='center'><span style=\"color:white ;\">" + RS.getString("email") + "</span></td>"
+                + "<td align='center'><span style=\"color:white ;\">" + RS.getString("phoneNumber") + "</span></td>"
+                + "</tr>";
             }
             
             out.println("<!DOCTYPE html>");
@@ -78,11 +75,12 @@ public class processSearchUsers extends HttpServlet {
             
             out.println("<div class='booking'>"
                     + "<br>"
-                    + "<h3 class='main-heading'>users have (" + name + ") in their name</h3>"
+                    + "<h3 class='heading' align='center'>users have (" + name + ") in their name</h3>"
                     + "<br><br>"
-                    + "<UL>" 
+                    + "<table class=\"center\" width=80% cellspacing=15>"
+                    + "<tr style=\"color:white ;\"><th>Name</th><th>Email</th><th>Phone</th></tr>" 
                     + output
-                    + "</UL>"
+                    + "</table>"
                     + "</div>");
             
             out.println("</div>");

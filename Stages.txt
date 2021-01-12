@@ -1,8 +1,0 @@
-- page to view hotel (single hotel) information (rooms available, room type, room facilities etc.) + hotel photos + hotel location on google maps + 
-form to give a rating and a comment on the hotel
- 
-- page to reserve in a hotel
-
-- page to view user profile 
-
-- page to view user reservations and avail buttons to change or cancel the reservation

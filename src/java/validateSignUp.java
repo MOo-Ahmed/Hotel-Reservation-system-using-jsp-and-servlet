@@ -33,6 +33,7 @@ public class validateSignUp extends HttpServlet {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String username = request.getParameter("username");
+            String phone = request.getParameter("phone"); 
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
             String user = "root";
             String password = "";
@@ -50,14 +51,16 @@ public class validateSignUp extends HttpServlet {
                 out.print("no");
             } else {
                 String TempPassword = generatePassword(10);
-                line = "INSERT INTO user (name, email, username, password) VALUES (? , ? , ?, ?)";
+                line = "INSERT INTO user (name, email, username, password, phoneNumber) VALUES (? , ? , ?, ?, ?)";
                 statement = Con.prepareStatement(line);
                 statement.setString(1, name + "");
                 statement.setString(2, email + "");
                 statement.setString(3, username + "");
                 statement.setString(4, TempPassword);
+                statement.setString(5, phone);
                 statement.executeUpdate();
-                sendEmail(email, TempPassword);
+                String message = "Please find your temporary password here:\n" + TempPassword ;
+                MailSender.sendMail(email, "Temporary password" , message);
                 out.print("yes");
                 Con.close();
             }

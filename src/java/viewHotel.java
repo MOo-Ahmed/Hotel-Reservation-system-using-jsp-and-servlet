@@ -54,9 +54,9 @@ public class viewHotel extends HttpServlet {
             //String lng = String.valueOf(RS.getDouble("longitude"));
             session.setAttribute("hotelName", hotelName);
             hotelData = "<div class='booking'>"
-                    + "<h1 align='center' class='heading'>" + hotelName + "</h1>"
+                    + "<h1 align='center' class='heading' style=\"color:white ;\">" + hotelName + "</h1>"
                     + "<h3 align='center' class='sub-heading'>" + city + ", " + country + "</h3>"
-                    + "<div> "
+                    + "<div class='MagicScroll' data-options='height: 500; mode: carousel; draggable: true;'> "
                     + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_1.jpg'>"
                     + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_2.jpg'>"
                     + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_3.jpg'>"
@@ -70,6 +70,7 @@ public class viewHotel extends HttpServlet {
                     + "}"
                     + "</script>"
                     + "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB4F9aEvkmbzdyUiWIFN7BR5Yr7RKAobqw&callback=initMap'></script>"
+                    + "<br"
                     + "</div>";
         }
         //retrieving all the available rooms
@@ -90,13 +91,13 @@ public class viewHotel extends HttpServlet {
             roomsCounter++;
             int roomID = RS.getInt("id");
             roomsData += "<li>"
-                + "<img class = 'room-image' src = 'img/H" + hotelID + "_R" + (((roomID-1)%5)+1) + ".jpg'>"
-                + "<span class = 'room-price'>" + RS.getString("name") + "</span>"
-                + "<span class = 'room-price'>Type: " + RS.getString("roomType") + "</span>"
-                + "<span class = 'room-price'>Price: " + RS.getInt("price") + "$ per night</span>"
-                + "<span class = 'paragraph'>Facilities:<br>" + RS.getString("facilities") + "</span>"
+                + "<img class = 'room-image' src = 'img/H" + hotelID + "_R" + ((roomsCounter%5)+1) + ".jpg'>"
+                + "<span class = 'room-price' style=\"color:white ;\">" + RS.getString("name") + "</span>"
+                + "<span class = 'room-price' style=\"color:white ;\">Type: " + RS.getString("roomType") + "</span>"
+                + "<span class = 'room-price' style=\"color:white ;\">Price: " + RS.getInt("price") + "$ per night</span>"
+                + "<span style=\"color:white ;\">Facilities:<br>" + RS.getString("facilities") + "</span>"
                 + "<br><br>"
-                + "<span class = 'paragraph'>"
+                + "<span style=\"color:white ;\">"
                 + "<input name = 'names' type='checkbox' value='" + roomID + "' class = 'rooms-btn'>"
                 + " Reserve room</span>"
                 + "<br><br>"
@@ -127,35 +128,34 @@ public class viewHotel extends HttpServlet {
             reviewsCounter++;
             rating += RS.getInt("rate");
             int reviewID = RS.getInt("id");
-            reviewsData += "<li>"
-                    + "<span class = 'paragraph'>" + RS.getString("user") + ":<br></span>"
-                    + "<span class = 'paragraph'>" + RS.getString("comment") + "</span>"
-                    + "<span class = 'paragraph'>" + RS.getInt("rate") + "</span>"
-                    + "</li><br>"; 
+            reviewsData += "<tr><td style=\"color:white ;\"><span >" + RS.getString("user") + ":<br></span>"
+                    + "<span >" + RS.getString("comment") + "</span></td>"
+                    + "<td style=\"color:white ;\"><span >" + RS.getInt("rate") + "</span></td>"
+                    + "</tr>"; 
         }
         rating = rating / reviewsCounter;
-        String temp = "<div class='rating'>"
+        String temp = "<div class='Log-content'>"
                 + "<form action='makeReview' class='form Log-form'>"
-                + "<span class='heading'>User Rating</span>";
+                + "<span class='heading' style=\"color:white ;\">User Rating</span>";
         for (int i=1 ; i<=5 ; i++) {
             if (i <= Math.ceil(rating))
-                temp += "<span class='fa fa-star checked'></span>";
+                temp += "<span class='fa fa-star checked rating'></span>";
             else 
-                temp += "<span class='fa fa-star'></span>";
+                temp += "<span class='fa fa-star' style=\"color:grey ;\"></span>";
         }
         reviewsData = temp 
-                + "<p>" + rating + " average based on " + reviewsCounter + " reviews.</p>"
-                + "<h5>reviews(" + reviewsCounter + ")</h5>"
+                + "<p style=\"color:white ;\">" + rating + " average based on " + reviewsCounter + " reviews.</p>"
                 + "<div class='input-group'>"
                 + "<input id='comment' name='comment' type='text' class='input' placeholder='comment' required>"
                 + "<span class='bar'></span>"
                 + "<label for='rating'>Rating: </label>"
-                + "<input id='rate' name='rate' type='range' min='0' max='5' step='1' required><br>"
+                + "<input id='rate' name='rate' type='range' min='1' max='5' step='1' required><br>"
                 + "<input id='submitreview' type='submit' value = 'Post review' class='btn form-btn btn-purple'>"
                 + "</div>"
-                + "<UL>"
+                + "<h5 style=\"color:white ;\">reviews(" + reviewsCounter + ")</h5>"
+                + "<table class=\"center\" width=80% cellspacing=15>"
                 + reviewsData
-                + "</UL>"
+                + "</table>"
                 + "</form>"
                 + "</div>";
         
@@ -190,6 +190,8 @@ public class viewHotel extends HttpServlet {
             out.println("<title>Hotel Details</title>");
             out.println("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'>");
             out.println("<link rel='stylesheet' href='styles.css'>");
+            out.println("<link type='text/css' rel='stylesheet' href='magicscroll/magicscroll.css'/>");
+            out.println("<script type='text/javascript' src='magicscroll/magicscroll.js'></script>");
             out.println("</head>");
             out.println("<body>");
             out.println("<main>");

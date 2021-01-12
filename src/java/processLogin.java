@@ -18,6 +18,27 @@ import javax.servlet.http.HttpSession;
 @WebServlet(urlPatterns = {"/processLogin"})
 public class processLogin extends HttpServlet {
 
+    private boolean isAdmin(int id) throws ClassNotFoundException, SQLException {
+        boolean result = false;
+        String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
+        String user = "root";
+        String password = "";
+        Connection Con = null;
+        Class.forName("com.mysql.jdbc.Driver");
+        Con = DriverManager.getConnection(url, user, password);
+        String line = "SELECT * FROM user WHERE id = ?";
+        PreparedStatement statement = Con.prepareStatement(line);
+        statement.setString(1, id + "");
+        ResultSet RS = statement.executeQuery();
+        RS.next();
+        if (RS.getBoolean("isAdmin") == true) {
+            result = true ;
+            
+        }
+        Con.close();
+        return result;
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -36,11 +57,17 @@ public class processLogin extends HttpServlet {
             statement.setString(1, username + "");
             statement.setString(2, PASSWORD + "");
 
-			HttpSession session = request.getSession(true);
+            HttpSession session = request.getSession(true);
             ResultSet RS = statement.executeQuery();
             if (RS.next()) {
                 session.setAttribute("userID", RS.getInt("id"));
-                out.print("yes");            } else {
+                boolean isAdmin = isAdmin(RS.getInt("id"));
+                if (isAdmin) {
+                    out.print("yes," + RS.getInt("id"));
+                } else {
+                    out.print("yes");
+                }
+            } else {
                 out.print("no");
             }
             Con.close();

@@ -1,7 +1,0 @@
-String line = "SELECT DISTINCT (hotel.id) AS HotelID, COUNT(hotel.id) AS RoomsCount , "
-                + " AVG(Q2.price) AS exPrice,AVG (review.rate) AS RATE, hotel.name AS HotelName "
-                + "FROM hotel INNER JOIN (SELECT * FROM room WHERE room.id IN "
-                + "(SELECT roomreservation.roomID AS roomID FROM roomreservation INNER JOIN reservation ON "
-                + "roomreservation.reservationID = reservation.id AND reservation.endDate <= ?)) AS Q2 "
-                + " ON hotel.id = Q2.HotelID AND hotel.cityID IN (SELECT city.id FROM city WHERE LOWER(city.name) LIKE ?) "
-                + " INNER JOIN review ON review.hotelID = hotel.id GROUP BY (hotel.id) HAVING RoomsCount >= ?";
