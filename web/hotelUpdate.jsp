@@ -1,9 +1,3 @@
-<%-- 
-    Document   : hotelUpdate
-    Created on : Jan 6, 2021, 5:24:03 AM
-    Author     : Kareem_Eltemsah
---%>
-
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>

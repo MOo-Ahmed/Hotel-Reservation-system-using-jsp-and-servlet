@@ -13,35 +13,49 @@
             function sendajax() {
                 var password = document.getElementById("password").value;
                 var username = document.getElementById("username").value;
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("POST", "processLogin", true);
-                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xmlhttp.send("username=" + username +"&password=" + password);
-                xmlhttp.onreadystatechange = function (){
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                        var result = xmlhttp.responseText.toString() ;
-                        var id = parseInt(result.split(",")[1]);
-                        //alert(id);
-                        //alert("mess = |" + result + "|");
-                        if(result.localeCompare("yes") == 0){
-                            window.location.replace("customerHome.jsp");
-                        }
-                        else if(id != null){
-                            var form = document.getElementById("loginForm");
-                            var element = document.getElementById("id");
-                            element.setAttribute('value', id);
-                            form.submit();
-                        }
-                        else if(result.localeCompare("no") == 0){
-                            document.getElementById("show_response").innerHTML= "Wrong user data"; 
-                        }
-                        else{
-                            document.getElementById("show_response").innerHTML= "Something went wrong.. enter data again"; 
+                if(validateSignInForm(username, password) == true){
+                
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.open("POST", "processLogin", true);
+                    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xmlhttp.send("username=" + username +"&password=" + password);
+                    xmlhttp.onreadystatechange = function (){
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                            var result = xmlhttp.responseText.toString() ;
+                            var id = parseInt(result.split(",")[1]);
+                            //alert(id);
+                            //alert("mess = |" + result + "|");
+                            if(result.localeCompare("yes") == 0){
+                                window.location.replace("customerHome.jsp");
+                            }
+                            else if(id != null){
+                                var form = document.getElementById("loginForm");
+                                var element = document.getElementById("id");
+                                element.setAttribute('value', id);
+                                form.submit();
+                            }
+                            else if(result.localeCompare("no") == 0){
+                                document.getElementById("show_response").innerHTML= "Wrong user data"; 
+                            }
+                            else{
+                                document.getElementById("show_response").innerHTML= "Something went wrong.. enter data again"; 
+                            }
                         }
                     }
                 }
             }
             
+            function validateSignInForm(username, password){
+                if (username == null || username == "" || username.trim() === ''){
+                    document.getElementById("show_response").innerHTML = "Invalid username !" ;
+                    return false ;
+                }
+                else if(password == null || password == "" || password.trim() === ''){
+                    document.getElementById("show_response").innerHTML = "Invalid password !" ;
+                    return false ;
+                }
+                return true ;
+            }
             
         </script>
 </head>

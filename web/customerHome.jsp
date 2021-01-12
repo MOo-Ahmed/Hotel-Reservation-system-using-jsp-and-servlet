@@ -51,6 +51,38 @@
                     }
                 }
             }
+            
+            function validateSearchForm(){
+                var city = document.getElementById("city").value;
+                var inDate = document.getElementById("inDate").value;
+                var outDate = document.getElementById("outDate").value;
+                var rooms = document.getElementById("rooms").value;
+                var adults = document.getElementById("adults").value;
+                var children = document.getElementById("children").value;
+                
+                if (city == null || city == "" || city.trim() === ''){
+                    document.getElementById("show_response").innerHTML = "Invalid city name !" ;
+                    return false ;
+                }
+                else if(inDate == null || inDate == "" || outDate == null || outDate == ""){
+                    document.getElementById("show_response").innerHTML = "Invalid date !" ;
+                    return false ;
+                }
+                else if(adults == null || adults == "" || adults.isNaN() == true){
+                    document.getElementById("show_response").innerHTML = "Invalid number of adults !" ;
+                    return false ;
+                }
+                else if(children == null || children == "" || children.isNaN() == true){
+                    document.getElementById("show_response").innerHTML = "Invalid number of children !" ;
+                    return false ;
+                }
+                else if(rooms == null || rooms == "" || rooms.isNaN() == true){
+                    document.getElementById("show_response").innerHTML = "Invalid number of rooms !" ;
+                    return false ;
+                }
+                return true ;
+                
+            }
         </script>
         <style>
             table, tr{
@@ -93,45 +125,47 @@
                         <span class="sub-heading">anywhere in the world</span>
                     </h5>
                     <br><br>        
-        
+                    
                     <div class="Log-content">
-                        <form action="processSearch" class="form Log-form">
+                        <form action="processSearch" class="form Log-form" onsubmit="validateSearchForm()">
                             <br><br>
                             <div class="input-group-wrap">
                                 <div class="input-group">
-                                    <input name="city" type="text" class="input" placeholder="City" required>
+                                    <input id="city" name="city" type="text" class="input" placeholder="City" required>
                                     <span class="bar"></span>
                                 </div>
                             </div>
 
                             <div class="input-group">
                                 <label>Check in date </label>
-                                <input name="checkInDate" type="date" class="input" placeholder="Check in date" required>
+                                <input id="inDate" name="checkInDate" type="date" class="input" placeholder="Check in date" required>
                                 <span class="bar"></span>
                             </div>
 
                             <div class="input-group">
                                 <label>Check out date </label>
-                                <input name="checkOutDate" type="date" class="input" placeholder="Check out date" required>
+                                <input id="outDate" name="checkOutDate" type="date" class="input" placeholder="Check out date" required>
                                 <span class="bar"></span>
                             </div>
 
                             <div class="input-group">
-                                <input name="adults" type="number" class="input" placeholder="Number Of Adults" required>
+                                <input id="adults" name="adults" type="number" class="input" placeholder="Number Of Adults" required>
                                 <span class="bar"></span>
                             </div>
 
                             <div class="input-group">
-                                <input name="children" type="number" class="input" placeholder="Number of children" required>
+                                <input id="children" name="children" type="number" class="input" placeholder="Number of children" required>
                                 <span class="bar"></span>
                             </div>
 
                             <div class="input-group">
-                                <input name="rooms" type="number" class="input" placeholder="Number of rooms" required>
+                                <input id="rooms" name="rooms" type="number" class="input" placeholder="Number of rooms" required>
                                 <span class="bar"></span>
                             </div>
 
                             <input type="submit" value = "search" class="btn form-btn btn-purple">
+                            <br><br><br>
+                            <label id="show_response"></label>
                         </form>   
                     </div>
                 </div>

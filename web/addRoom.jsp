@@ -15,6 +15,28 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <!--Local style sheet-->
         <link rel="stylesheet" href="styles.css">
+        <script>
+            function validateAddRoomForm(){
+                var name = document.getElementById("name").value;
+                var price = document.getElementById("price").value;
+                var facilities = document.getElementById("facilities").value;
+                
+                if (name == null || name == "" || name.trim() === ''){
+                    document.getElementById("show_response").innerHTML = "Invalid room name !" ;
+                    return false ;
+                }
+                else if(price == null || price == "" || price.isNaN() == true){
+                    document.getElementById("show_response").innerHTML = "Invalid price !" ;
+                    return false ;
+                }
+                else if(facilities == null || facilities == "" || facilities.trim() === ''){
+                    document.getElementById("show_response").innerHTML = "Invalid facilities !" ;
+                    return false ;
+                }
+                return true ;
+            }
+        </script>
+                   
     </head>
     <body>
         <main>
@@ -24,21 +46,21 @@
                         <span class="heading">Add room</span>
                     </h5>
                     <div class="Log-content">
-                        <form action="processAddRoom" class="form Log-form">
+                        <form action="processAddRoom" class="form Log-form" onsubmit="validateAddRoomForm()()">
                             <br>
                             <div class="input-group-wrap">
                                 <div class="input-group">
-                                    <input name="name" type="text" class="input" placeholder="room name" required>
+                                    <input id="name" name="name" type="text" class="input" placeholder="room name" required>
                                     <span class="bar"></span>
                                 </div>
 
                                 <div class="input-group">
-                                    <input name="price" type="number" class="input" placeholder="price" required>
+                                    <input id="price" name="price" type="number" class="input" placeholder="price" required>
                                     <span class="bar"></span>
                                 </div>
 
                                 <div class="input-group">
-                                    <input name="facilities" type="text" class="input" placeholder="facilities" required>
+                                    <input id="facilities" name="facilities" type="text" class="input" placeholder="facilities" required>
                                     <span class="bar"></span>
                                 </div>
                                 
@@ -54,6 +76,8 @@
                             <% String hotelID = request.getParameter("hotelID"); %>
                             <input type="hidden" name="hotelID" value = "<%=hotelID%>">
                             <input type="submit" value = "Add Room" class="btn form-btn btn-purple"/>
+                            <br><br><br>
+                            <label id="show_response"></label>
                         </form>
                     </div>
                     <a href="hotelHome.jsp?hotelID=<%=hotelID%>" class="btn form-btn btn-purple">back to hotel home

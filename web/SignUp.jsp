@@ -15,26 +15,48 @@
                 var username = document.getElementById("username").value;
                 var email = document.getElementById("email").value;
                 var phone = document.getElementById("phone").value;
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("POST", "validateSignUp", true);
-                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xmlhttp.send("name=" + name +"&username=" + username + "&email=" + email + "&phone=" + phone);
-                xmlhttp.onreadystatechange = function (){
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                        var result = xmlhttp.responseText.toString() ;
-                        if(result.localeCompare("yes") == 0){
-                            document.getElementById("show_response").innerHTML= "Successfully registered .. Find your password on your email .. If your receive it use it in Log in page"; 
-                        }
-                        else if(result.localeCompare("no") == 0){
-                            document.getElementById("show_response").innerHTML= "Username already exists"; 
-                        }
-                        else{
-                            document.getElementById("show_response").innerHTML= "Something went wrong.. enter data again"; 
+                if(validateSignUpForm(username, phone , email, name) == true){
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.open("POST", "validateSignUp", true);
+                    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xmlhttp.send("name=" + name +"&username=" + username + "&email=" + email + "&phone=" + phone);
+                    xmlhttp.onreadystatechange = function (){
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                            var result = xmlhttp.responseText.toString() ;
+                            if(result.localeCompare("yes") == 0){
+                                document.getElementById("show_response").innerHTML= "Successfully registered .. Find your password on your email .. If your receive it use it in Log in page"; 
+                            }
+                            else if(result.localeCompare("no") == 0){
+                                document.getElementById("show_response").innerHTML= "Username already exists"; 
+                            }
+                            else{
+                                document.getElementById("show_response").innerHTML= "Something went wrong.. enter data again"; 
+                            }
                         }
                     }
                 }
             }
             
+            function validateSignUpForm(username, phone , email, name){
+                const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if (username == null || username == "" || username.trim() === ''){
+                    document.getElementById("show_response").innerHTML = "Invalid username !" ;
+                    return false ;
+                }
+                else if(name == null || name == "" || name.trim() === ''){
+                    document.getElementById("show_response").innerHTML = "Invalid name !" ;
+                    return false ;
+                }
+                else if(email == null || email == "" || email.trim() === '' || re.test(email) == false){
+                    document.getElementById("show_response").innerHTML = "Invalid email !" ;
+                    return false ;
+                }
+                else if(phone == null || phone == "" || phone.trim() === '' || phone.isNaN()){
+                    document.getElementById("show_response").innerHTML = "Invalid phone number !" ;
+                    return false ;
+                }
+                return true ;
+            }
             
         </script>
     </head>
