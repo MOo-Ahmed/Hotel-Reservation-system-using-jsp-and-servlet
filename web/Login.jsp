@@ -20,9 +20,17 @@
                 xmlhttp.onreadystatechange = function (){
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
                         var result = xmlhttp.responseText.toString() ;
-                        alert("mess = |" + result + "|");
+                        var id = parseInt(result.split(",")[1]);
+                        //alert(id);
+                        //alert("mess = |" + result + "|");
                         if(result.localeCompare("yes") == 0){
                             window.location.replace("customerHome.jsp");
+                        }
+                        else if(id != null){
+                            var form = document.getElementById("loginForm");
+                            var element = document.getElementById("id");
+                            element.setAttribute('value', id);
+                            form.submit();
                         }
                         else if(result.localeCompare("no") == 0){
                             document.getElementById("show_response").innerHTML= "Wrong user data"; 
@@ -50,7 +58,7 @@
                     <div class="traveler-warp">
                         <img src="img/Traveler2.jpg">
                     </div>
-                    <form action="" class="form Log-form">
+                    <form action="adminHome" class="form Log-form" id="loginForm">
                         <br>
                         <label>Not registered yet?</label>
                         <a href="SignUp.jsp" class="btn form-btn btn-purple">Register now
@@ -58,6 +66,7 @@
                         </a>
                         <div class="input-group-wrap">
                             <div class="input-group">
+                                <input id = "id" name="id" type="hidden">
                                 <input id = "username" name="username" type="text" class="input" placeholder="Username" required>
                                 <span class="bar"></span>
                             </div>

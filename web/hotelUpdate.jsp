@@ -21,7 +21,6 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        
         <%
             String hotelID = request.getParameter("hotelID");
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
@@ -49,9 +48,9 @@
         <main>
             <div class="container">
                 <br>
+                <h1 class="heading" align="center">Update hotel information </h1><br><br>
                 <form action="processUpdateHotel" class="form Log-form">
                     <br>
-                    <label>Update hotel information </label><br><br>
                     <label>id: <%= hotelID %></label><br>
                     <label>name: <%= name %></label><br>
                     <label>city: <%= city %></label><br>
@@ -79,6 +78,13 @@
                     </div>
                     <input type="submit" value = "Update" class="btn form-btn btn-purple">
                 </form>
+                <form action="updateRooms.jsp" class="form Log-form">
+                    <input type="hidden" name="hotelID" value = "<%=hotelID%>">
+                    <input type="submit" value = "Update rooms" class="btn form-btn btn-purple">
+                </form>
+                <a href="hotelHome.jsp?hotelID=<%=hotelID%>" class="btn form-btn btn-purple">back to hotel home
+                    <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
+                </a>
             </div>
         </main>
     </body>

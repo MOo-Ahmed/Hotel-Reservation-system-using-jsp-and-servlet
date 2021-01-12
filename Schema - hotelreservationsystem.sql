@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 01, 2021 at 05:46 PM
+-- Generation Time: Jan 11, 2021 at 06:17 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.9
 
@@ -70,9 +70,35 @@ CREATE TABLE `hotel` (
   `distanceFromCC` double NOT NULL DEFAULT 10,
   `includingMeals` varchar(100) NOT NULL DEFAULT 'Yes',
   `cityID` int(11) NOT NULL,
-  `latitude` double,
-  `longitude` double,
-  `contacts` varchar(50) null 
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
+  `contacts` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hoteladmin`
+--
+
+CREATE TABLE `hoteladmin` (
+  `id` int(11) NOT NULL,
+  `adminID` int(11) NOT NULL,
+  `hotelID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification`
+--
+
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `hotelID` int(11) NOT NULL,
+  `isRead` tinyint(1) NOT NULL DEFAULT 0,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -119,7 +145,7 @@ CREATE TABLE `room` (
   `hotelID` int(11) NOT NULL,
   `roomTypeID` int(11) NOT NULL,
   `price` decimal(10,0) NOT NULL DEFAULT 200,
-  `facilities` varchar(255) null
+  `facilities` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -157,7 +183,8 @@ CREATE TABLE `user` (
   `email` varchar(40) NOT NULL,
   `username` varchar(40) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `phoneNumber` varchar(15) not null
+  `phoneNumber` varchar(15) NOT NULL,
+  `isAdmin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -192,6 +219,21 @@ ALTER TABLE `guest`
 ALTER TABLE `hotel`
   ADD PRIMARY KEY (`id`),
   ADD KEY `hotel_fk_1` (`cityID`);
+
+--
+-- Indexes for table `hoteladmin`
+--
+ALTER TABLE `hoteladmin`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Ad_fk1` (`adminID`),
+  ADD KEY `Ad_fk2` (`hotelID`);
+
+--
+-- Indexes for table `notification`
+--
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `notifi_FK1` (`hotelID`);
 
 --
 -- Indexes for table `reservation`
@@ -267,6 +309,18 @@ ALTER TABLE `hotel`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `hoteladmin`
+--
+ALTER TABLE `hoteladmin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
@@ -324,6 +378,19 @@ ALTER TABLE `guest`
 --
 ALTER TABLE `hotel`
   ADD CONSTRAINT `hotel_fk_1` FOREIGN KEY (`cityID`) REFERENCES `city` (`id`);
+
+--
+-- Constraints for table `hoteladmin`
+--
+ALTER TABLE `hoteladmin`
+  ADD CONSTRAINT `Ad_fk1` FOREIGN KEY (`adminID`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `Ad_fk2` FOREIGN KEY (`hotelID`) REFERENCES `hotel` (`id`);
+
+--
+-- Constraints for table `notification`
+--
+ALTER TABLE `notification`
+  ADD CONSTRAINT `notifi_FK1` FOREIGN KEY (`hotelID`) REFERENCES `hotel` (`id`);
 
 --
 -- Constraints for table `reservation`

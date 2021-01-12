@@ -57,7 +57,7 @@ public class processSearch extends HttpServlet {
     }
     
     private String makeDiv(int hotelID, String hotelName, int exPrice, double rate, int stars){
-        String div = "<div><h3>" + hotelName + "  -  " + exPrice +  " Pounds per night" + 
+        String div = "<div><h3>" + hotelName + "  -  " + exPrice +  " $ per night" + 
                 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 + " Rate : " + rate + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  " + stars + " STARS</h3><br>" ;
         div += "<form class='form Log-form' action='viewHotel'><input name = 'hotelID' type='hidden' value=" + hotelID + ">" ;
@@ -107,11 +107,11 @@ public class processSearch extends HttpServlet {
             String checkOutDate = request.getParameter("checkOutDate");
             int adults = Integer.parseInt(request.getParameter("adults"));
             int children = Integer.parseInt(request.getParameter("children"));
-			HttpSession session = request.getSession(true);
+            HttpSession session = request.getSession(true);
             session.setAttribute("checkIn", checkInDate);
             session.setAttribute("checkOut", checkOutDate);
-                       
-		   String r = getAllHotels(rooms, adults, children, checkInDate, checkOutDate, city);
+            String r = getAllHotels(rooms, adults, children, checkInDate, checkOutDate, city);
+            
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");

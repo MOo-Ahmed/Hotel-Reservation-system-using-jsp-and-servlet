@@ -11,6 +11,7 @@
 
 /*Custom properties*/
 :root {
+	--red : #FF0000 ;
     --dark-color: #000000;
     --light-purple: #6f00ca;
     --black-transparent: rgba(7, 7, 7, 0.5);
@@ -148,7 +149,7 @@ section {
     display: block;
 }
 
-.menu-open .hamburger-menu .fa-bars {
+.menu-open .hamburger-menu .fa-bell {
     display: none;
 }
 
@@ -165,9 +166,10 @@ section {
     justify-content: center;
     z-index: 280;
     opacity: 0;
-    transform: scale(0); /* To make it non-clickable while being hidden  */
+    transform: scale(0); 
     transition: opacity 0.5s ;
 }
+
 
 .menu-open .nav-list{
     opacity: 1;
@@ -546,4 +548,9 @@ footer {
 
 .sm-link i{
     margin: auto;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
 }

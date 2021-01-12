@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Kareem_Eltemsah
  */
-@WebServlet(urlPatterns = {"/viewRatingAndCmts"})
-public class viewRatingAndCmts extends HttpServlet {
+@WebServlet(urlPatterns = {"/processAddRoom"})
+public class processAddRoom extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,53 +40,26 @@ public class viewRatingAndCmts extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String hotelID = request.getParameter("hotelID");
+            String name = request.getParameter("name");
+            String roomTypeID = request.getParameter("roomTypeID");
+            String price = request.getParameter("price");
+            String facilities = request.getParameter("facilities");
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
             String user = "root";
             String password = "";
             Connection Con = null;
             Class.forName("com.mysql.jdbc.Driver");
             Con = DriverManager.getConnection(url, user, password);
-            String line = "SELECT review.id as id, user.name as user, "
-                    + "review.comment as comment, review.rate as rate "
-                    + "from review inner join user on review.userID = user.id "
-                    + "where review.hotelID = ?";
+            String line = "INSERT INTO room (name, hotelID, roomTypeID, price, facilities) "
+                    + "VALUES (? , ?, ? , ?, ?);";
             PreparedStatement statement = Con.prepareStatement(line);
-            statement.setString(1, hotelID + "");
-            ResultSet RS = statement.executeQuery();
-            String output = "";
-            while (RS.next()) {
-                output += "<tr><td style=\"color:white ;\"><span>" + RS.getString("user") + ":<br></span>"
-                    + "<span>" + RS.getString("comment") + "</span></td>"
-                    + "<td style=\"color:white ;\"><span>" + RS.getInt("rate") + "</span></td>"
-                    + "</tr>";
-            }
-            
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>users search result</title>");
-            out.println("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'>");
-            out.println("<link rel='stylesheet' href='styles.css'>");        
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<main>");
-            out.println("<section class='Log'>");
-            out.println("<div class='container'>");
-            
-            out.println("<h3 class='heading' align=center>Ratings and comments</h3>"
-                    + "<br><br>"
-                    + "<div class='booking'>"
-                    + "<br>"
-                    + "<table class=\"center\" width=80% cellspacing=15>" 
-                    + output
-                    + "</table>"
-                    + "</div>");
-            
-            out.println("</div>");
-            out.println("</section>");
-            out.println("</main>");
-            out.println("</body>");
-            out.println("</html>");
+            statement.setString(1, name + "");
+            statement.setString(2, hotelID + "");
+            statement.setString(3, roomTypeID + "");
+            statement.setString(4, price + "");
+            statement.setString(5, facilities + "");
+            statement.execute();
+            response.sendRedirect("updateRooms.jsp?hotelID=" + hotelID);
         }
     }
 
@@ -106,9 +78,9 @@ public class viewRatingAndCmts extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(viewRatingAndCmts.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processAddRoom.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(viewRatingAndCmts.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processAddRoom.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -126,9 +98,9 @@ public class viewRatingAndCmts extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(viewRatingAndCmts.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processAddRoom.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(viewRatingAndCmts.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(processAddRoom.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

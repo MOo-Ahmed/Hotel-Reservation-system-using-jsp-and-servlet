@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -14,11 +15,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(urlPatterns = {"/processViewReservations"})
 public class processViewReservations extends HttpServlet {
+
     private String getCuurentReservations(int hotelID) throws ClassNotFoundException, SQLException {
-        String tempResult = "No reservations at this period", result = "" ;
+        String tempResult = "No reservations at this period", result = "";
         String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
         String user = "root";
         String password = "";
@@ -31,29 +32,84 @@ public class processViewReservations extends HttpServlet {
         PreparedStatement statement = Con.prepareStatement(line);
         statement.setInt(1, hotelID);
         ResultSet RS = statement.executeQuery();
-        boolean empty = true ;
-        result += "<table><tr><th>Reservation ID</th><th>User ID</th> <th>User Name</th><th>Start</th><th>End</th> <th>Pay</th><th>Cancel</th></tr>" ;
-        while(RS.next()){
+        boolean empty = true;
+        result += "<table><tr><th>Reservation ID</th><th>User ID</th> <th>User Name</th><th>Start</th><th>End</th> <th>Pay</th><th>Cancel</th></tr>";
+        while (RS.next()) {
             // Here we should print a table with cancel buttons and confoirm payment buttons
-            empty = false ;
+            empty = false;
             //result += "<label>" + (i++) +  "</label><button class='btn form-btn btn-purple'>Cancel this</button><br>";
-            int rID = RS.getInt("ReservationID") ;
-            int uID = RS.getInt("UserID") ;
-            String uName = RS.getString("ClientName") ;
-            String start = RS.getString("StartDate") ;
-            String end = RS.getString("EndDate") ;
-            String isPaid = RS.getString("isPaid") ;
+            int rID = RS.getInt("ReservationID");
+            int uID = RS.getInt("UserID");
+            String uName = RS.getString("ClientName");
+            String start = RS.getString("StartDate");
+            String end = RS.getString("EndDate");
+            String isPaid = RS.getString("isPaid");
             result += getTableRow(rID, uID, isPaid, start, end, uName, true);
-            
+
         }
-        if(empty)   result = tempResult ;
-        else    result += "</table>" ;
+        if (empty) {
+            result = tempResult;
+        } else {
+            result += "</table>";
+        }
         Con.close();
-        return result ;
+        return result;
     }
-    
+
+    private String getUserReservations(int userID) throws ClassNotFoundException, SQLException {
+        String tempResult = "No reservations yet by you .. maybe all your reservations are now unchangable", result = "";
+        String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
+        String user = "root";
+        String password = "";
+        Connection Con = null;
+        Class.forName("com.mysql.jdbc.Driver");
+        Con = DriverManager.getConnection(url, user, password);
+        
+        Date d = new Date(System.currentTimeMillis());
+        String line = "SELECT reservation.id AS ReservationID, hotel.name AS HotelName,"
+                + " reservation.startDate AS StartDate, reservation.endDate AS EndDate"
+                + " FROM reservation INNER JOIN hotel ON reservation.hotelID = hotel.id "
+                + "AND reservation.checkInDate IS NULL AND reservation.userID = ? AND reservation.startDate > ?";
+        PreparedStatement statement = Con.prepareStatement(line);
+        statement.setInt(1, userID);
+        statement.setDate(2, d);
+        ResultSet RS = statement.executeQuery();
+        boolean empty = true;
+        result += "<table><tr><th>Reservation ID</th><th>Hotel Name</th><th>Start</th><th>End</th> <th>Change</th><th>Cancel</th></tr>";
+        while (RS.next()) {
+            empty = false;
+            int rID = RS.getInt("ReservationID");
+            String hotelName = RS.getString("HotelName");
+            String start = RS.getString("StartDate");
+            String end = RS.getString("EndDate");
+            result += getUserReservationTableRow(rID, hotelName, start, end);
+
+        }
+        if (empty) {
+            result = tempResult;
+        } else {
+            result += "</table>";
+        }
+        Con.close();
+        return result;
+    }
+
+    private String getUserReservationTableRow(int rID, String hotelName, String start, String end) {
+        // reservationID -> userID -> username -> start -> end -> pay -> cancel
+        String result = "<tr>";
+        result += "<td>" + rID + "</td><td>" + hotelName + "</td>";
+        result += "<td>" + start + "</td><td>" + end + "</td>";
+
+        result += "<td><form> <input id='reservationIDToChange' type='hidden' value=" + rID + ">"
+                + "<input type='button' value='Change reservation' class='btn form-btn btn-purple' onclick='sendajaxChangeReservation(" + rID + ")'></form>" + "</td>";
+        result += "<td><form> <input id='reservationIDToCancel' type='hidden' value=" + rID + ">"
+                + "<input type='button' value='Cancel' class='btn form-btn btn-purple' onclick='sendajaxCancelReservation(" + rID + ")'></form>" + "</td>";
+
+        return result;
+    }
+
     private String getSpecificReservations(int hotelID, String from, String to) throws ClassNotFoundException, SQLException {
-        String tempResult = "No reservations yet", result = "" ;
+        String tempResult = "No reservations yet", result = "";
         String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
         String user = "root";
         String password = "";
@@ -70,67 +126,72 @@ public class processViewReservations extends HttpServlet {
         statement.setString(3, to);
 
         ResultSet RS = statement.executeQuery();
-        boolean empty = true ;
-        result += "<table><tr><th>Reservation ID</th><th>User ID</th> <th>User Name</th><th>Start</th><th>End</th> <th>Is Paid</th></tr>" ;
-        while(RS.next()){
+        boolean empty = true;
+        result += "<table><tr><th>Reservation ID</th><th>User ID</th> <th>User Name</th><th>Start</th><th>End</th> <th>Is Paid</th></tr>";
+        while (RS.next()) {
             // Here we should print a table with cancel buttons and confoirm payment buttons
-            empty = false ;
+            empty = false;
             //result += "<label>" + (i++) +  "</label><button class='btn form-btn btn-purple'>Cancel this</button><br>";
-            int rID = RS.getInt("ReservationID") ;
-            int uID = RS.getInt("UserID") ;
-            String uName = RS.getString("ClientName") ;
-            String start = RS.getString("StartDate") ;
-            String end = RS.getString("EndDate") ;
-            String isPaid = RS.getString("isPaid") ;
+            int rID = RS.getInt("ReservationID");
+            int uID = RS.getInt("UserID");
+            String uName = RS.getString("ClientName");
+            String start = RS.getString("StartDate");
+            String end = RS.getString("EndDate");
+            String isPaid = RS.getString("isPaid");
             result += getTableRow(rID, uID, isPaid, start, end, uName, false);
-            
+
         }
-        if(empty)   result = tempResult ;
-        else    result += "</table>" ;
+        if (empty) {
+            result = tempResult;
+        } else {
+            result += "</table>";
+        }
         Con.close();
-        return result ;
+        return result;
     }
-    
-    private String getTableRow(int rID, int uID, String isPaid, String start, String end, String uName, boolean isControllable){
+
+    private String getTableRow(int rID, int uID, String isPaid, String start, String end, String uName, boolean isControllable) {
         // reservationID -> userID -> username -> start -> end -> pay -> cancel
-        String result = "<tr>" ;
-        result += "<td>" + rID + "</td><td>" + uID + "</td><td>" + uName + "</td>"  ;
-        result += "<td>" + start + "</td><td>" + end + "</td>" ;
-        if(isControllable == true){
-            if(isPaid.compareToIgnoreCase("No") == 0)
-            result += "<td><form> <input id='reservationIDToPay' type='hidden' value=" + rID + ">"
-                    + "<input type='button' value='Confirm payment' class='btn form-btn btn-purple' onclick='sendajaxConfirmPayment(" + rID + ")'></form>" + "</td>";
-            else{
-                result += "<td></td>" ;
+        String result = "<tr>";
+        result += "<td>" + rID + "</td><td>" + uID + "</td><td>" + uName + "</td>";
+        result += "<td>" + start + "</td><td>" + end + "</td>";
+        if (isControllable == true) {
+            if (isPaid.compareToIgnoreCase("No") == 0) {
+                result += "<td><form> <input id='reservationIDToPay' type='hidden' value=" + rID + ">"
+                        + "<input type='button' value='Confirm payment' class='btn form-btn btn-purple' onclick='sendajaxConfirmPayment(" + rID + ")'></form>" + "</td>";
+            } else {
+                result += "<td></td>";
             }
             result += "<td><form> <input id='reservationIDToCancel' type='hidden' value=" + rID + ">"
                     + "<input type='button' value='Cancel' class='btn form-btn btn-purple' onclick='sendajaxCancelReservation(" + rID + ")'></form>" + "</td>";
+        } else {
+            result += "<td>" + isPaid + "</td>";
         }
-        else{
-            result += "<td>"+ isPaid + "</td>" ;
-        }
-        
-        
-        return result ;
+
+        return result;
     }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /*
-            It's assumed that current reservations = the ones that aren't finished (checked out) yet, whether started or not
-            */
-            int hotelID = Integer.parseInt(request.getParameter("hotelID"));
+             It's assumed that current reservations = the ones that aren't finished (checked out) yet, whether started or not
+             */
             String view = request.getParameter("view");
-            if(view.compareToIgnoreCase("current") == 0){
+            if (view.compareToIgnoreCase("current") == 0) {
+                int hotelID = Integer.parseInt(request.getParameter("hotelID"));
                 out.print(getCuurentReservations(hotelID));
-            }
-            else if (view.compareToIgnoreCase("specific") == 0){
+            } else if (view.compareToIgnoreCase("specific") == 0) {
+                int hotelID = Integer.parseInt(request.getParameter("hotelID"));
                 String from = request.getParameter("from"), to = request.getParameter("to");
-                out.print(getSpecificReservations(hotelID, from , to));
+                out.print(getSpecificReservations(hotelID, from, to));
+            } else if (view.compareToIgnoreCase("user") == 0) {
+                int userID = Integer.parseInt(request.getParameter("userID"));
+                out.print(getUserReservations(userID));
+
             }
-            
+
         }
     }
 
@@ -146,7 +207,6 @@ public class processViewReservations extends HttpServlet {
         }
     }
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -159,7 +219,6 @@ public class processViewReservations extends HttpServlet {
         }
     }
 
-   
     @Override
     public String getServletInfo() {
         return "Short description";

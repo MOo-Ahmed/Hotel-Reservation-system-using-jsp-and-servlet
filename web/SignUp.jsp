@@ -71,7 +71,13 @@
                                     <input id="email" name="email" type="email" class="input" placeholder="E-mail" required>
                                     <span class="bar"></span>
                                 </div>
-
+                                
+                                <div class="input-group">
+                                    <input id="phone" name="phone" type="text" class="input" placeholder="Phone number" required>
+                                    <span class="bar"></span>
+                                </div>
+                                
+                                
                             </div>
                             <input id="submitSignup" type="button" value = "Sign up" class="btn form-btn btn-purple" onclick="sendajax()"/>
                             <br><br><br>

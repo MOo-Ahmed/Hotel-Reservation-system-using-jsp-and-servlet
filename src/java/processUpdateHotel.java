@@ -75,6 +75,7 @@ public class processUpdateHotel extends HttpServlet {
                 int row = statement.executeUpdate();
             }
             
+            response.sendRedirect("hotelHome.jsp?hotelID=" + hotelID);
         }
     }
 

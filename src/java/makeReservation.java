@@ -106,10 +106,16 @@ public class makeReservation extends HttpServlet {
                     + "Rooms names: ";
             for (int i=0 ; i<roomNames.size()-1 ; i++)
                 output += roomNames.get(i) + ", ";
+            int days = (Integer.parseInt(checkOut.substring(0, 4))
+                    - Integer.parseInt(checkIn.substring(0, 4))) * 365
+                    + (Integer.parseInt(checkOut.substring(5, 7))
+                    - Integer.parseInt(checkIn.substring(5, 7))) * 30
+                    + (Integer.parseInt(checkOut.substring(8, 10))
+                    - Integer.parseInt(checkIn.substring(8, 10)));
             output += roomNames.get(roomNames.size()-1) + "<br>"
                     + "CheckIn date: " + checkIn + "<br>"
                     + "CheckOut date: " + checkOut + "<br>"
-                    + "Total Price: " + (totalPrice);
+                    + "Total Price: " + (totalPrice) * days + "$";
                 
             
             out.println("<!DOCTYPE html>");
@@ -121,9 +127,10 @@ public class makeReservation extends HttpServlet {
             out.println("<body>");
             out.println("<main>");
             out.println("<section class='Log'>");
-            out.println("<div class='container'>");
+            out.println("<div class='container Log-form'>");
             out.println("<h1 align='center' class='heading'>Reservation has bean made</h1>"
-                    + "<p align='center' class='room-price'>" + output + "</P>"
+                    + "<br>"
+                    + "<p align='center' class='room-price' style=\"color:white ;\">" + output + "</P>"
                     + "<a href='customerHome.jsp' class='btn btn-gradient'>Go back to search page"
                     + "<span class='dots'><i class='fas fa-ellipsis-h'></i></span>"
                     + "</a>");
