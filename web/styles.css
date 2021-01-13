@@ -444,6 +444,7 @@ section {
 .Log-content {
     display: flex;
     justify-content: center;
+    background-image: var(--gradient-color-alt);
 }
 
 .traveler-wrap {

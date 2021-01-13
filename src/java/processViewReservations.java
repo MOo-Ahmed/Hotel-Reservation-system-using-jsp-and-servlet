@@ -100,10 +100,11 @@ public class processViewReservations extends HttpServlet {
         result += "<td>" + rID + "</td><td>" + hotelName + "</td>";
         result += "<td>" + start + "</td><td>" + end + "</td>";
 
-        result += "<td><form> <input id='reservationIDToChange' type='hidden' value=" + rID + ">"
-                + "<input type='button' value='Change reservation' class='btn form-btn btn-purple' onclick='sendajaxChangeReservation(" + rID + ")'></form>" + "</td>";
+        result += "<td>"
+                + "<input id='reservationIDToChange' name='resID' type='hidden' value=" + rID + ">"
+                + "<input type='submit' value='Change reservation' class='btn form-btn btn-purple'>" + "</td>";
         result += "<td><form> <input id='reservationIDToCancel' type='hidden' value=" + rID + ">"
-                + "<input type='button' value='Cancel' class='btn form-btn btn-purple' onclick='sendajaxCancelReservation(" + rID + ")'></form>" + "</td>";
+                + "<input type='button' value='Cancel' class='btn form-btn btn-purple' onclick='sendajaxCancelReservation(" + rID + ")'></form>" + "</td></tr>";
 
         return result;
     }

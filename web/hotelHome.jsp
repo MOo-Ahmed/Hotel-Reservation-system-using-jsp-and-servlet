@@ -153,7 +153,7 @@
             }
             function sendajaxCancelReservation(id) {
                 var reservationID = id;
-                alert(reservationID);
+                //alert(reservationID);
                 var operation = "cancel";
                 var notify = "false";
                 var xmlhttp = new XMLHttpRequest();

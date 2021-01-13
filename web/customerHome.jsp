@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie-edge">
-        <title>Search</title>
+        <title>client home</title>
         <!--Font awesome CDN-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <!--Local style sheet-->
@@ -109,15 +109,17 @@
                         <span class="sub-heading">to change / cancel reservations</span>
                     </h5>
                     <div class="Log-content">
-                        <form action="" class="form Log-form">
+                        <form action="changeReservation.jsp" method='POST' class="form Log-form">
                             <br>
                             <input id='userID' type = "hidden" name="userID" value = <%=userID%>>
 
-                            <input id="submitViewUserReservations" type="button" value = "View reservations" class="btn form-btn btn-purple" onclick="sendajaxViewUserReservations()"/>
+                            <input id="submitViewUserReservations" type="button" value = "View reservations" class="btn form-btn btn-purple"
+                                   onclick="sendajaxViewUserReservations()"/>
                             <br><br><br>
                             <div id="show_response1" style="color:white ;"></div>
                             <div id="show_response2" style="color:white ;"></div>
                         </form>   
+                            
                     </div>
                     <br><br>
                     <h5 class="section-head">
