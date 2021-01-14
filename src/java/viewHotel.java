@@ -36,7 +36,7 @@ public class viewHotel extends HttpServlet {
         Class.forName("com.mysql.jdbc.Driver");
         Con = DriverManager.getConnection(url, user, password);
         String line = "SELECT hotel.id as id, hotel.name as name, "
-                    + "city.name as city, country.name as country "
+                    + "city.name as city, country.name as country, locationUrl as loc "
                     + "FROM hotel INNER JOIN city "
                     + "ON hotel.cityID = city.id "
                     + "INNER JOIN country "
@@ -50,6 +50,7 @@ public class viewHotel extends HttpServlet {
             String hotelName = RS.getString("name");
             String city = RS.getString("city");
             String country = RS.getString("country");
+            String loc = RS.getString("loc");
             //String lat = String.valueOf(RS.getDouble("latitude"));
             //String lng = String.valueOf(RS.getDouble("longitude"));
             session.setAttribute("hotelName", hotelName);
@@ -63,16 +64,9 @@ public class viewHotel extends HttpServlet {
                     + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_2.jpg'>"
                     + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_3.jpg'>"
                     + "</div>"
-                    + "<div id='googleMap' style='width:400px;height:400px;'></div>"
-                    + "<script>"
-                    + "function initMap() {\n"
-                    + "var location= {lat: 0, lng: 0};\n"
-                    + "var map = new google.maps.Map(document.getElementById('googleMap'),{zoom: 4, center: location});\n"
-                    + "var marker = new google.maps.Marker({position: location, map: googleMap});\n"
-                    + "}"
-                    + "</script>"
-                    + "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB4F9aEvkmbzdyUiWIFN7BR5Yr7RKAobqw&callback=initMap'></script>"
-                    + "<br"
+                    + "<iframe src=\"" + loc + "\" width=\"600\" height=\"450\" "
+                    + "frameborder=\"0\" style=\"border:0;\" allowfullscreen=\"\" "
+                    + "aria-hidden=\"false\" tabindex=\"0\"></iframe>"
                     + "</div>";
         }
         //retrieving all the available rooms

@@ -70,8 +70,7 @@ CREATE TABLE `hotel` (
   `distanceFromCC` double NOT NULL DEFAULT 10,
   `includingMeals` varchar(100) NOT NULL DEFAULT 'Yes',
   `cityID` int(11) NOT NULL,
-  `latitude` double DEFAULT NULL,
-  `longitude` double DEFAULT NULL,
+  `locationUrl` varchar(600) Not NULL,
   `contacts` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
