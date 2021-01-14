@@ -23,12 +23,11 @@
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
                             var result = xmlhttp.responseText.toString() ;
                             var id = parseInt(result.split(",")[1]);
-                            //alert(id);
-                            //alert("mess = |" + result + "|");
+                            
                             if(result.localeCompare("yes") == 0){
                                 window.location.replace("customerHome.jsp");
                             }
-                            else if(id != null){
+                            else if(result.localeCompare("admin") == 0){
                                 var form = document.getElementById("loginForm");
                                 var element = document.getElementById("id");
                                 element.setAttribute('value', id);
@@ -72,7 +71,7 @@
                     <div class="traveler-warp">
                         <img src="img/Traveler2.jpg">
                     </div>
-                    <form action="adminHome" class="form Log-form" id="loginForm">
+                    <form action="adminHome" method='POST' class="form Log-form" id="loginForm">
                         <br>
                         <label>Not registered yet?</label>
                         <a href="SignUp.jsp" class="btn form-btn btn-purple">Register now

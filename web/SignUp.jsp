@@ -15,7 +15,7 @@
                 var username = document.getElementById("username").value;
                 var email = document.getElementById("email").value;
                 var phone = document.getElementById("phone").value;
-                if (validateSignUpForm(username, phone, email, name) == true) {
+                if (validateSignUpForm(username, phone, email, name) == true && validateCaptcha()) {
                     var xmlhttp = new XMLHttpRequest();
                     xmlhttp.open("POST", "validateSignUp", true);
                     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -51,7 +51,7 @@
                     document.getElementById("show_response").innerHTML = "Invalid email !";
                     return false;
                 }
-                else if (phone == null || phone == "" || phone.trim() === '' || phone.isNaN()) {
+                else if (phone == null || phone == "" || phone.trim() === '' || isNaN(phone)) {
                     document.getElementById("show_response").innerHTML = "Invalid phone number !";
                     return false;
                 }
@@ -90,10 +90,12 @@
                 event.preventDefault();
                 debugger
                 if (document.getElementById("cpatchaTextBox").value == code) {
-                    alert("Valid Captcha")
+                    alert("Valid Captcha");
+                    return true ;
                 } else {
                     alert("Invalid Captcha. try Again");
                     createCaptcha();
+                    return false;
                 }
             }
         </script>
@@ -159,8 +161,7 @@
                                 <input type="text" placeholder="Captcha" id="cpatchaTextBox" />
 
                             </div>
-                            <input id="submitSignup" type="button" value = "Sign up" class="btn form-btn btn-purple" onclick="sendajax();
-                                    validateCaptcha()"/>
+                            <input id="submitSignup" type="button" value = "Sign up" class="btn form-btn btn-purple" onclick="sendajax() "/>
                             <br><br><br>
                             <label id="show_response"></label>
                             <!--<input type="submit" value = "Sign up" class="btn form-btn btn-purple">!-->

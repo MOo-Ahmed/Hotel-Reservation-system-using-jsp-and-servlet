@@ -149,6 +149,9 @@
         </style>
     </head>
     <%
+        if (session.getAttribute("userID") == null || session.getAttribute("userID").equals("")) {
+            response.sendRedirect("Login.jsp");
+        }
         String userID = session.getAttribute("userID").toString();
         String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
         String user = "root";
@@ -179,11 +182,15 @@
     <body> 
         <!--The main content-->
         <main>
-            
+
             <section class="Log">
                 <div class="container">
                     <h1><%=username%></h1>
-                    <br><br><br><br>        
+                    <a href="signOut" class="btn form-btn btn-purple">Logout
+                        <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
+                    </a>
+                    <br><br><br><br> 
+
 
                     <h5 class="section-head">
                         <span class="heading">View your reservations</span>

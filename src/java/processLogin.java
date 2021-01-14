@@ -60,11 +60,13 @@ public class processLogin extends HttpServlet {
             HttpSession session = request.getSession(true);
             ResultSet RS = statement.executeQuery();
             if (RS.next()) {
-                session.setAttribute("userID", RS.getInt("id"));
                 boolean isAdmin = isAdmin(RS.getInt("id"));
                 if (isAdmin) {
-                    out.print("yes," + RS.getInt("id"));
+                    session.setAttribute("adminID", RS.getInt("id"));
+                    out.print("admin");
+                    
                 } else {
+                    session.setAttribute("userID", RS.getInt("id"));
                     out.print("yes");
                 }
             } else {
