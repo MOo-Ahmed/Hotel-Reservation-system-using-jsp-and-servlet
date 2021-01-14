@@ -53,9 +53,11 @@ public class viewHotel extends HttpServlet {
             //String lat = String.valueOf(RS.getDouble("latitude"));
             //String lng = String.valueOf(RS.getDouble("longitude"));
             session.setAttribute("hotelName", hotelName);
-            hotelData = "<div class='booking'>"
-                    + "<h1 align='center' class='heading' style=\"color:white ;\">" + hotelName + "</h1>"
+            hotelData = "<br>"
+                    + "<h1 align='center' class='heading'>" + hotelName + "</h1>"
                     + "<h3 align='center' class='sub-heading'>" + city + ", " + country + "</h3>"
+                    + "<br><br>"
+                    + "<div class='booking'>"
                     + "<div class='MagicScroll' data-options='height: 500; mode: carousel; draggable: true;'> "
                     + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_1.jpg'>"
                     + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_2.jpg'>"

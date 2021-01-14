@@ -119,9 +119,9 @@ public class makeReservation extends HttpServlet {
             out.println("<body>");
             out.println("<main>");
             out.println("<section class='Log'>");
-            out.println("<div class='container Log-form'>");
             out.println("<h1 align='center' class='heading'>Reservation has bean made</h1>"
-                    + "<br>"
+                    + "<br><br>"
+                    + "<div class='container Log-form'>"
                     + "<p align='center' class='room-price' style=\"color:white ;\">" + output + "</P>"
                     + "<a href='customerHome.jsp' class='btn btn-gradient'>Go back to search page"
                     + "<span class='dots'><i class='fas fa-ellipsis-h'></i></span>"

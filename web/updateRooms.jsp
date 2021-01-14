@@ -19,6 +19,23 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <!--Local style sheet-->
         <link rel="stylesheet" href="styles.css">
+        <script>
+            function validateUpdateRoomForm() {
+                var name = document.getElementById("name").value;
+                var price = document.getElementById("price").value;
+                var facilities = document.getElementById("facilities").value;
+                var roomType = document.getElementById("roomType").value;
+
+                if ((name == null || name == "" || name.trim() === '')
+                        && (price == null || price == "" || price.isNaN() == true)
+                        && (facilities == null || facilities == "" || facilities.trim() === '')
+                        && (roomType == null || roomType == "" || roomType.isNaN() === true)) {
+                    document.getElementById("show_response").innerHTML = "Change at least 1 field !";
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </head>
     <body>
         <%
@@ -32,49 +49,50 @@
             String line = "SELECT * FROM room where hotelID = " + hotelID;
             PreparedStatement statement = Con.prepareStatement(line);
             ResultSet RS = statement.executeQuery();%>
-            <main>
+        <main>
             <div class="container">
                 <br>
                 <h1 class="heading" align="center">Update hotel rooms </h1><br><br>
-                    
-            <%while(RS.next()){
-                int roomID = RS.getInt("id");
-                String name = RS.getString("name");
-                int roomTypeID = RS.getInt("roomTypeID");
-                float price = RS.getFloat("price");
-                String facilities = RS.getString("facilities");%>
-                
-                <form action="processUpdateRoom" class="form Log-form">
-                <label>id: <%= roomID %></label><br>
-                <label>hotel id: <%= hotelID %></label><br><br>
-                <input name = 'hotelID' type='hidden' value="<%= hotelID %>">
-                <input name = 'roomID' type='hidden' value="<%= roomID %>">
-                <div class="input-group">
-                    <label>name </label>
-                    <input name="name" type="text" class="input" placeholder="<%= name %>">
-                    <span class="bar"></span>
-                </div>
-                <div class="input-group">
-                    <label>room type id </label>
-                    <input name="roomTypeID" type="number" class="input" placeholder="<%= roomTypeID %>">
-                    <span class="bar"></span>
-                </div>
-                <div class="input-group">
-                    <label>price </label>
-                    <input name="price" type="number" class="input" placeholder="<%= price %>">
-                    <span class="bar"></span>
-                </div>
-                <div class="input-group">
-                    <label>facilities </label>
-                    <input name="facilities" type="text" class="input" placeholder="<%= facilities %>">
-                    <span class="bar"></span>
-                </div>
-                <input type="submit" value = "Update" class="btn form-btn btn-purple">
-                <br><br>
+
+                <%while (RS.next()) {
+                        int roomID = RS.getInt("id");
+                        String name = RS.getString("name");
+                        int roomTypeID = RS.getInt("roomTypeID");
+                        float price = RS.getFloat("price");
+                        String facilities = RS.getString("facilities");%>
+
+                <form action="processUpdateRoom" class="form Log-form" onsubmit="return validateUpdateRoomForm()">
+                    <label>id: <%= roomID%></label><br>
+                    <label>hotel id: <%= hotelID%></label><br><br>
+                    <input name = 'hotelID' type='hidden' value="<%= hotelID%>">
+                    <input name = 'roomID' type='hidden' value="<%= roomID%>">
+                    <div class="input-group">
+                        <label>name </label>
+                        <input id="name" name="name" type="text" class="input" placeholder="<%= name%>">
+                        <span class="bar"></span>
+                    </div>
+                    <div class="input-group">
+                        <label>room type id </label>
+                        <input id="roomType" name="roomTypeID" type="number" class="input" placeholder="<%= roomTypeID%>">
+                        <span class="bar"></span>
+                    </div>
+                    <div class="input-group">
+                        <label>price </label>
+                        <input id="price" name="price" type="number" class="input" placeholder="<%= price%>">
+                        <span class="bar"></span>
+                    </div>
+                    <div class="input-group">
+                        <label>facilities </label>
+                        <input id="facilities" name="facilities" type="text" class="input" placeholder="<%= facilities%>">
+                        <span class="bar"></span>
+                    </div>
+                    <input type="submit" value = "Update" class="btn form-btn btn-purple">
+                    <br><br>
+                    <label id="show_response"></label>
                 </form>
-                    
-            <%}%>
-        
+
+                <%}%>
+
                 <form action="addRoom.jsp" class="form Log-form">
                     <input type="hidden" name="hotelID" value = "<%=hotelID%>">
                     <input type="submit" value = "add room" class="btn form-btn btn-purple">

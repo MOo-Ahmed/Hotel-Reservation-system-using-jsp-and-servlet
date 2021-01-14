@@ -48,41 +48,41 @@ public class processSearchUsers extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Con = DriverManager.getConnection(url, user, password);
             String line = "SELECT name, email, phoneNumber"
-                        + " FROM user WHERE (name) like '%" + name + "%';";
+                    + " FROM user WHERE (name) like '%" + name + "%';";
             PreparedStatement statement = Con.prepareStatement(line);
             ResultSet RS = statement.executeQuery();
-            
+
             String output = "";
             while (RS.next()) {
                 output += "<tr>"
-                + "<td align='center'><span style=\"color:white ;\">" + RS.getString("name") + "</span></td>"
-                + "<td align='center'><span style=\"color:white ;\">" + RS.getString("email") + "</span></td>"
-                + "<td align='center'><span style=\"color:white ;\">" + RS.getString("phoneNumber") + "</span></td>"
-                + "</tr>";
+                        + "<td align='center'><span style=\"color:white ;\">" + RS.getString("name") + "</span></td>"
+                        + "<td align='center'><span style=\"color:white ;\">" + RS.getString("email") + "</span></td>"
+                        + "<td align='center'><span style=\"color:white ;\">" + RS.getString("phoneNumber") + "</span></td>"
+                        + "</tr>";
             }
-            
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>users search result</title>");
             out.println("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'>");
-            out.println("<link rel='stylesheet' href='styles.css'>");        
+            out.println("<link rel='stylesheet' href='styles.css'>");
             out.println("</head>");
             out.println("<body>");
             out.println("<main>");
             out.println("<section class='Log'>");
             out.println("<div class='container'>");
-            
-            out.println("<div class='booking'>"
-                    + "<br>"
+
+            out.println("<br>"
                     + "<h3 class='heading' align='center'>users have (" + name + ") in their name</h3>"
                     + "<br><br>"
+                    + "<div class='booking'>"
                     + "<table class=\"center\" width=80% cellspacing=15>"
-                    + "<tr style=\"color:white ;\"><th>Name</th><th>Email</th><th>Phone</th></tr>" 
+                    + "<tr style=\"color:white ;\"><th>Name</th><th>Email</th><th>Phone</th></tr>"
                     + output
                     + "</table>"
                     + "</div>");
-            
+
             out.println("</div>");
             out.println("</section>");
             out.println("</main>");

@@ -13,6 +13,23 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <!--Local style sheet-->
         <link rel="stylesheet" href="styles.css">
+        <script>
+            function validateUpdateHotelForm() {
+                var stars = document.getElementById("stars").value;
+                var distance = document.getElementById("distance").value;
+                var meals = document.getElementById("meals").value;
+                var contacts = document.getElementById("contacts").value;
+
+                if ((contacts == null || contacts == "" || contacts.trim() === '')
+                        && (stars == null || stars == "" || stars.isNaN() == true)
+                        && (meals == null || meals == "" || meals.trim() === '')
+                        && (distance == null || distance == "" || distance.isNaN() === true)) {
+                    document.getElementById("show_response").innerHTML = "Change at least 1 field !";
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </head>
     <body>
         <%
@@ -43,7 +60,7 @@
             <div class="container">
                 <br>
                 <h1 class="heading" align="center">Update hotel information </h1><br><br>
-                <form action="processUpdateHotel" class="form Log-form">
+                <form action="processUpdateHotel" class="form Log-form" onsubmit="return validateUpdateHotelForm()">
                     <br>
                     <label>id: <%= hotelID %></label><br>
                     <label>name: <%= name %></label><br>
@@ -52,25 +69,27 @@
                     <input name = 'hotelID' type='hidden' value="<%= hotelID %>">
                     <div class="input-group">
                         <label>stars </label>
-                        <input name="stars" type="number" class="input" placeholder="<%= stars %>">
+                        <input id="stars" name="stars" type="number" class="input" placeholder="<%= stars %>">
                         <span class="bar"></span>
                     </div>
                     <div class="input-group">
                         <label>distance from city center </label>
-                        <input name="DFCC" type="number" class="input" placeholder="<%= DFCC %>">
+                        <input id="distance" name="DFCC" type="number" class="input" placeholder="<%= DFCC %>">
                         <span class="bar"></span>
                     </div>
                     <div class="input-group">
                         <label>including meals </label>
-                        <input name="meals" type="text" class="input" placeholder="<%= meals %>">
+                        <input id="meals" name="meals" type="text" class="input" placeholder="<%= meals %>">
                         <span class="bar"></span>
                     </div>
                     <div class="input-group">
                         <label>contacts </label>
-                        <input name="contacts" type="text" class="input" placeholder="<%= contacts %>">
+                        <input id="contacts" name="contacts" type="text" class="input" placeholder="<%= contacts %>">
                         <span class="bar"></span>
                     </div>
                     <input type="submit" value = "Update" class="btn form-btn btn-purple">
+                    <br><br>
+                    <label id="show_response"></label>
                 </form>
                 <form action="updateRooms.jsp" class="form Log-form">
                     <input type="hidden" name="hotelID" value = "<%=hotelID%>">

@@ -46,7 +46,7 @@
                         <span class="heading">Add room</span>
                     </h5>
                     <div class="Log-content">
-                        <form action="processAddRoom" class="form Log-form" onsubmit="validateAddRoomForm()()">
+                        <form action="processAddRoom" class="form Log-form" onsubmit="return validateAddRoomForm()">
                             <br>
                             <div class="input-group-wrap">
                                 <div class="input-group">
