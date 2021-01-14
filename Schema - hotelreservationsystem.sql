@@ -71,7 +71,8 @@ CREATE TABLE `hotel` (
   `includingMeals` varchar(100) NOT NULL DEFAULT 'Yes',
   `cityID` int(11) NOT NULL,
   `locationUrl` varchar(600) Not NULL,
-  `contacts` varchar(50) DEFAULT NULL
+  `contacts` varchar(50) DEFAULT NULL,
+  `imgCount` int DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

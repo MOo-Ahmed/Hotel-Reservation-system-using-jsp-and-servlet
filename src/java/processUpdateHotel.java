@@ -4,26 +4,34 @@
  * and open the template in the editor.
  */
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author Kareem_Eltemsah
  */
 @WebServlet(urlPatterns = {"/processUpdateHotel"})
+@MultipartConfig
 public class processUpdateHotel extends HttpServlet {
 
     /**
@@ -45,7 +53,7 @@ public class processUpdateHotel extends HttpServlet {
             String DFCC = request.getParameter("DFCC");
             String meals = request.getParameter("meals");
             String contacts = request.getParameter("contacts");
-            
+
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
             String user = "root";
             String password = "";
@@ -75,6 +83,23 @@ public class processUpdateHotel extends HttpServlet {
                 int row = statement.executeUpdate();
             }
             
+            Part filePart = request.getPart("hotelImg");
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            if (fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
+                line = "select imgCount from hotel where id = " + hotelID + ";";
+                statement = Con.prepareStatement(line);
+                ResultSet rs = statement.executeQuery();
+                rs.next();
+                InputStream fileContent = filePart.getInputStream();
+                Random random = new Random();
+                File img = new File("C:\\Users\\Kareem Eltemsah\\Documents\\GitHub\\Hotel-Reservation-system-using-jsp-and-servlet\\web\\img",
+                        "H" + hotelID + "_" + (rs.getInt("imgCount")+1) + ".jpg");
+                
+                line = "update hotel set imgCount = imgCount + 1 where id = " + hotelID + ";";
+                statement = Con.prepareStatement(line);
+                statement.executeUpdate();
+                Files.copy(fileContent, img.toPath());
+            }
             response.sendRedirect("hotelHome.jsp?hotelID=" + hotelID);
         }
     }

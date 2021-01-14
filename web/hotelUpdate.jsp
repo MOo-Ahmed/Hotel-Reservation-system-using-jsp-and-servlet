@@ -60,33 +60,36 @@
             <div class="container">
                 <br>
                 <h1 class="heading" align="center">Update hotel information </h1><br><br>
-                <form action="processUpdateHotel" class="form Log-form" onsubmit="return validateUpdateHotelForm()">
+                <form action="processUpdateHotel" class="form Log-form" method="post" enctype="multipart/form-data" 
+                      onsubmit="return validateUpdateHotelForm()">
                     <br>
-                    <label>id: <%= hotelID %></label><br>
-                    <label>name: <%= name %></label><br>
-                    <label>city: <%= city %></label><br>
-                    <label>country: <%= country %></label><br><br>
-                    <input name = 'hotelID' type='hidden' value="<%= hotelID %>">
+                    <label>id: <%= hotelID%></label><br>
+                    <label>name: <%= name%></label><br>
+                    <label>city: <%= city%></label><br>
+                    <label>country: <%= country%></label><br><br>
+                    <input name = 'hotelID' type='hidden' value="<%= hotelID%>">
                     <div class="input-group">
                         <label>stars </label>
-                        <input id="stars" name="stars" type="number" class="input" placeholder="<%= stars %>">
+                        <input id="stars" name="stars" type="number" class="input" placeholder="<%= stars%>">
                         <span class="bar"></span>
                     </div>
                     <div class="input-group">
                         <label>distance from city center </label>
-                        <input id="distance" name="DFCC" type="number" class="input" placeholder="<%= DFCC %>">
+                        <input id="distance" name="DFCC" type="number" class="input" placeholder="<%= DFCC%>">
                         <span class="bar"></span>
                     </div>
                     <div class="input-group">
                         <label>including meals </label>
-                        <input id="meals" name="meals" type="text" class="input" placeholder="<%= meals %>">
+                        <input id="meals" name="meals" type="text" class="input" placeholder="<%= meals%>">
                         <span class="bar"></span>
                     </div>
                     <div class="input-group">
                         <label>contacts </label>
-                        <input id="contacts" name="contacts" type="text" class="input" placeholder="<%= contacts %>">
+                        <input id="contacts" name="contacts" type="text" class="input" placeholder="<%= contacts%>">
                         <span class="bar"></span>
                     </div>
+                        <label>Upload new hotel photo</label><br>
+                        <input type="file" name="hotelImg" style="color: white" /><br>
                     <input type="submit" value = "Update" class="btn form-btn btn-purple">
                     <br><br>
                     <label id="show_response"></label>

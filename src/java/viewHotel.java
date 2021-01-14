@@ -35,7 +35,7 @@ public class viewHotel extends HttpServlet {
         Connection Con = null;
         Class.forName("com.mysql.jdbc.Driver");
         Con = DriverManager.getConnection(url, user, password);
-        String line = "SELECT hotel.id as id, hotel.name as name, "
+        String line = "SELECT hotel.id as id, hotel.name as name, imgCount, "
                     + "city.name as city, country.name as country, locationUrl as loc "
                     + "FROM hotel INNER JOIN city "
                     + "ON hotel.cityID = city.id "
@@ -59,11 +59,10 @@ public class viewHotel extends HttpServlet {
                     + "<h3 align='center' class='sub-heading'>" + city + ", " + country + "</h3>"
                     + "<br><br>"
                     + "<div class='booking'>"
-                    + "<div class='MagicScroll' data-options='height: 500; mode: carousel; draggable: true;'> "
-                    + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_1.jpg'>"
-                    + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_2.jpg'>"
-                    + "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_3.jpg'>"
-                    + "</div>"
+                    + "<div class='MagicScroll' data-options='height: 500; mode: carousel; draggable: true;'> ";
+            for (int i=1 ; i<=RS.getInt("imgCount") ; i++)
+                hotelData += "<img class = 'featured-hotels' src = 'img/H" + hotelID + "_" + i + ".jpg'>";
+            hotelData += "</div>"
                     + "<iframe src=\"" + loc + "\" width=\"600\" height=\"450\" "
                     + "frameborder=\"0\" style=\"border:0;\" allowfullscreen=\"\" "
                     + "aria-hidden=\"false\" tabindex=\"0\"></iframe>"
