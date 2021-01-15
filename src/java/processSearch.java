@@ -31,11 +31,11 @@ public class processSearch extends HttpServlet {
         String line = "SELECT DISTINCT (hotel.id) AS HotelID, COUNT(hotel.id) AS RoomsCount , "
                 + " AVG(room.price) AS exPrice, AVG (review.rate) AS RATE, hotel.name AS HotelName, hotel.stars AS HotelStars "
                 + "FROM hotel INNER JOIN room "
-                + " ON hotel.id = room.hotelID AND hotel.cityID IN (SELECT city.id FROM city WHERE LOWER(city.name) LIKE ?) "
+                + " ON hotel.id = room.hotelID AND hotel.cityID IN (SELECT city.id FROM city WHERE LOWER(city.name) LIKE '%" + city + "%') "
                 + " LEFT JOIN review ON review.hotelID = hotel.id GROUP BY (hotel.id)";
         PreparedStatement statement = Con.prepareStatement(line);
         //statement.setString(1, checkIn);
-        statement.setString(1, city);
+        //statement.setString(1, city);
         //statement.setString(3, _rooms + "");
         
         ResultSet RS = statement.executeQuery();

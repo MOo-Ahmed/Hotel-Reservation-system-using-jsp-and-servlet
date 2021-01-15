@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 11, 2021 at 06:17 PM
+-- Generation Time: Jan 15, 2021 at 04:54 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.9
 
@@ -70,9 +70,9 @@ CREATE TABLE `hotel` (
   `distanceFromCC` double NOT NULL DEFAULT 10,
   `includingMeals` varchar(100) NOT NULL DEFAULT 'Yes',
   `cityID` int(11) NOT NULL,
-  `locationUrl` varchar(600) Not NULL,
+  `locationUrl` varchar(600) NOT NULL,
   `contacts` varchar(50) DEFAULT NULL,
-  `imgCount` int DEFAULT 0
+  `imgCount` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

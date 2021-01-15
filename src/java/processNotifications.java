@@ -32,20 +32,30 @@ public class processNotifications extends HttpServlet {
         while (RS.next()) {
             empty = false ;
             String content = RS.getString("content") ;
+            boolean isRead = RS.getBoolean("isRead");
             String timestamp = String.valueOf(RS.getTimestamp("createdAt"));
+            result += makeNotification(isRead, content, timestamp) ;
             
-            result += makeNotification(content, timestamp) ;
         }
         if(empty)   {
             result = "<h3 style='color:white;'>Sorry, no notifications yet</h3>" ;        
         }
+        else{
+            line = "UPDATE notification SET isRead = 1 WHERE hotelID = ?" ;
+            statement = Con.prepareStatement(line);
+            statement.setInt(1, hotelID);
+            statement.executeUpdate();
+        }
         Con.close();
-        
         return result ;
     }
     
-    private String makeNotification(String content, String time){
-        String notification = "<label class='notification'>(" + time + ") - " + content + "</label>" ;
+    private String makeNotification(boolean isRead, String content, String time){
+        String isNew = "" ;
+        if(isRead == false){
+            isNew = "** NEW **" ;
+        }
+        String notification = "<label class='notification'>" + isNew + "(" + time + ") - " + content + "</label>" ;
         notification += "<br><p style='color:white;'>----------------------------------------------------------------------"
                 + "------------------------------------------------------------------------------</p><br>" ;
         return notification ;

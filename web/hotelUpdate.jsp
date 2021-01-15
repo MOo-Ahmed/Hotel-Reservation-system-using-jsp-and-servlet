@@ -43,7 +43,7 @@
             String hotelID = request.getParameter("hotelID");
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
             String user = "root";
-            String password = "root";
+            String password = "";
             Connection Con = null;
             Class.forName("com.mysql.jdbc.Driver");
             Con = DriverManager.getConnection(url, user, password);

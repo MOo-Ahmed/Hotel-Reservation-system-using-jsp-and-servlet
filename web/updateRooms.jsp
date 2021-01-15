@@ -20,17 +20,17 @@
         <!--Local style sheet-->
         <link rel="stylesheet" href="styles.css">
         <script>
-            function validateUpdateRoomForm() {
-                var name = document.getElementById("name").value;
-                var price = document.getElementById("price").value;
-                var facilities = document.getElementById("facilities").value;
-                var roomType = document.getElementById("roomType").value;
+            function validateUpdateRoomForm(roomID) {
+                var name = document.getElementById("name" +roomID).value;
+                var price = document.getElementById("price" +roomID).value;
+                var facilities = document.getElementById("facilities" +roomID).value;
+                var roomType = document.getElementById("roomType" +roomID).value;
 
                 if ((name == null || name == "" || name.trim() === '')
                         && (price == null || price == "" || price.isNaN() == true)
                         && (facilities == null || facilities == "" || facilities.trim() === '')
                         && (roomType == null || roomType == "" || roomType.isNaN() === true)) {
-                    document.getElementById("show_response").innerHTML = "Change at least 1 field !";
+                    document.getElementById("show_response" +roomID).innerHTML = "Change at least 1 field !";
                     return false;
                 }
                 return true;
@@ -61,34 +61,38 @@
                         float price = RS.getFloat("price");
                         String facilities = RS.getString("facilities");%>
 
-                <form action="processUpdateRoom" class="form Log-form" onsubmit="return validateUpdateRoomForm()">
+                <form action="processUpdateRoom" class="form Log-form" onsubmit="return validateUpdateRoomForm(<%=roomID%>)">
                     <label>id: <%= roomID%></label><br>
                     <label>hotel id: <%= hotelID%></label><br><br>
                     <input name = 'hotelID' type='hidden' value="<%= hotelID%>">
                     <input name = 'roomID' type='hidden' value="<%= roomID%>">
                     <div class="input-group">
                         <label>name </label>
-                        <input id="name" name="name" type="text" class="input" placeholder="<%= name%>">
+                        <input id="name<%=roomID%>" name="name" type="text" class="input" placeholder="<%= name%>">
                         <span class="bar"></span>
                     </div>
                     <div class="input-group">
                         <label>room type id </label>
-                        <input id="roomType" name="roomTypeID" type="number" class="input" placeholder="<%= roomTypeID%>">
+                        <input id="roomType<%=roomID%>" name="roomTypeID" type="number" class="input" placeholder="<%= roomTypeID%>">
                         <span class="bar"></span>
                     </div>
                     <div class="input-group">
                         <label>price </label>
-                        <input id="price" name="price" type="number" class="input" placeholder="<%= price%>">
-                        <span class="bar"></span>
+                        <input id="price<%=roomID%>" name="price" type="number" class="input" placeholder="<%= price%>">
+                        <span class="bar<%=roomID%>"></span>
                     </div>
                     <div class="input-group">
                         <label>facilities </label>
-                        <input id="facilities" name="facilities" type="text" class="input" placeholder="<%= facilities%>">
+                        <input id="facilities<%=roomID%>" name="facilities" type="text" class="input" placeholder="<%= facilities%>">
                         <span class="bar"></span>
                     </div>
                     <input type="submit" value = "Update" class="btn form-btn btn-purple">
                     <br><br>
-                    <label id="show_response"></label>
+                    <%
+                        String lblID = "show_response" + roomID;
+                    %>
+                    
+                    <label id='<%=lblID%>'></label>
                 </form>
 
                 <%}%>

@@ -42,6 +42,14 @@
             }
         
             function processNewReservation(){
+                
+                // Part rwo : insert new reservation
+                var form = document.getElementById("updateForm");
+                form.submit();
+                
+            }
+            
+            function cancelCurrentReservation(){
                 // First part : delete the reservation
                 var reservationID = document.getElementById("resID").value;
                 var operation = "cancel";
@@ -51,10 +59,6 @@
                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xmlhttp.send("reservationID=" + reservationID + "&operation=" + operation + "&notify=" + notify);
                 xmlhttp.onreadystatechange = function (){}
-                
-                // Part rwo : insert new reservation
-                var form = document.getElementById("updateForm");
-                form.submit();
                 
             }
         </script>

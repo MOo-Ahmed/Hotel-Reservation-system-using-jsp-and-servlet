@@ -36,6 +36,8 @@ public class processUpdateReservation extends HttpServlet {
         Connection Con = null;
         Class.forName("com.mysql.jdbc.Driver");
         Con = DriverManager.getConnection(url, user, password);
+        
+        // Get hotel info
         String line = "SELECT hotel.name AS HotelName, reservation.hotelID AS HotelID FROM reservation INNER JOIN hotel ON "
                 + "hotel.id = reservation.hotelID AND reservation.id = ?" ;
         PreparedStatement statement = Con.prepareStatement(line);
@@ -44,6 +46,16 @@ public class processUpdateReservation extends HttpServlet {
         RS.next();
         int hotelID = RS.getInt("HotelID");
         String hotelName = RS.getString("HotelName");
+        
+        //Delete the current reservation
+        line = "DELETE FROM roomreservation WHERE reservationID = ?" ;
+        statement = Con.prepareStatement(line);
+        statement.setInt(1, resID);
+        statement.executeUpdate();
+        line = "DELETE FROM reservation WHERE id = ?" ;
+        statement = Con.prepareStatement(line);
+        statement.setInt(1, resID);
+        statement.executeUpdate();
         
         line = "SELECT room.id AS RoomID, room.name AS RoomName, room.price AS RoomPrice, room.facilities AS Facilities, room.hotelID AS HotelID"
                 + " FROM room WHERE room.hotelID = ? AND room.id NOT IN "

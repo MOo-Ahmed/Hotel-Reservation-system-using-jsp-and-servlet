@@ -27,35 +27,45 @@ public class processFilteredSearch extends HttpServlet {
         Connection Con = null;
         Class.forName("com.mysql.jdbc.Driver");
         Con = DriverManager.getConnection(url, user, password);
+        String val = "" ;
         String filterCondition = "" ;
         if(opName.compareTo("price") == 0){
-            filterCondition = " HAVING exPrice <=" ;
+            filterCondition = " HAVING exPrice <= " ;
         }
         else if(opName.compareTo("rate") == 0){
-            filterCondition = " HAVING RATE >=" ;
+            filterCondition = " HAVING RATE >= " ;
         }
         else if(opName.compareTo("stars") == 0){
-            filterCondition = " HAVING HotelStars >=" ;
+            filterCondition = " HAVING HotelStars >= " ;
         }
         else if(opName.compareTo("distance") == 0){
             filterCondition = " HAVING Dist <=" ;
         }
         else if(opName.compareTo("meals") == 0){
             filterCondition = " HAVING Meals = " ;
+            val = "Yes";
+        }
+        
+        if(opName.compareTo("meals") != 0){
+            val = String.valueOf(opValue) ;
         }
         // For each case you may eant to make a separate query line
         String line = "SELECT DISTINCT (hotel.id) AS HotelID, COUNT(hotel.id) AS RoomsCount , hotel.distanceFromCC AS Dist, hotel.includingMeals AS Meals,"
                 + " AVG(room.price) AS exPrice, AVG (review.rate) AS RATE, hotel.name AS HotelName, hotel.stars AS HotelStars "
                 + "FROM hotel INNER JOIN room "
-                + " ON hotel.id = room.hotelID AND hotel.cityID IN (SELECT city.id FROM city WHERE LOWER(city.name) LIKE ?) "
-                + " INNER JOIN review ON review.hotelID = hotel.id GROUP BY (hotel.id) " + filterCondition + " ?";
+                + " ON hotel.id = room.hotelID AND hotel.cityID IN (SELECT city.id FROM city WHERE LOWER(city.name) LIKE '%" + city + "%') "
+                + " INNER JOIN review ON review.hotelID = hotel.id GROUP BY (hotel.id) " + filterCondition + val;
         
         PreparedStatement statement = Con.prepareStatement(line);
-        statement.setString(1, city);
+        //statement.setString(1, city);
+        /*
         if(opName.compareTo("meals") == 0)   
-                statement.setString(2, "Yes");
-        else    statement.setString(2, opValue + ""); 
+                statement.setString(1, "Yes");
+        else    statement.setString(1, opValue); 
+        */
         ResultSet RS = statement.executeQuery();
+        //output = line ;
+        
         boolean empty = true ;
         while (RS.next()) {
             empty = false ;
@@ -72,7 +82,10 @@ public class processFilteredSearch extends HttpServlet {
         if(empty)   {
             output = "<h3>Sorry, no result matches your search</h3>" ;        
         }
-        Con.close();
+        
+        Con.close(); 
+        
+        
         return output;
     }
     

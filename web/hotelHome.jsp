@@ -214,6 +214,11 @@
             </header>
             <br><br><br>
             <div>
+                <a href="adminHome" class="btn btn-gradient">Go home
+                    <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
+                </a>
+            </div>
+            <div>
                 <form action="hotelUpdate.jsp">
                     <input type="hidden" name="hotelID" value=<%=hotelID%>> 
                     <input type="submit" value="Update Hotel data" class="btn form-btn btn-purple">
