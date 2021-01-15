@@ -22,10 +22,11 @@ public class processUpdateUserInfo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String name = request.getParameter("name");
-            int id = Integer.parseInt(request.getParameter("id"));
+            String id = request.getParameter("id");
             String email = request.getParameter("email");
             String Password = request.getParameter("password");
             String phone = request.getParameter("phone");
+            String source = request.getParameter("source");
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
             String user = "root";
             String password = "";
@@ -38,14 +39,19 @@ public class processUpdateUserInfo extends HttpServlet {
             statement.setString(2, email);
             statement.setString(3, phone);
             statement.setString(4, Password);
-            statement.setInt(5, id);
+            statement.setString(5, id);
             int s = statement.executeUpdate();
-            if (s > 0) {
-                out.print("yes");
-            } else {
-                out.print("no");
-            }
             Con.close();
+            if (source.compareToIgnoreCase("admin") == 0) {
+                response.sendRedirect("adminHome");
+            } else {
+                if (s > 0) {
+                    out.print("yes");
+                } else {
+                    out.print("no");
+                }
+            }
+
         }
     }
 

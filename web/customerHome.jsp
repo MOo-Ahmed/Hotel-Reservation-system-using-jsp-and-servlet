@@ -98,7 +98,7 @@
                     var xmlhttp = new XMLHttpRequest();
                     xmlhttp.open("POST", "processUpdateUserInfo", true);
                     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xmlhttp.send("id=" + id + "&name=" + name + "&password=" + password + "&email=" + email + "&phone=" + phone);
+                    xmlhttp.send("id=" + id + "&name=" + name + "&password=" + password + "&email=" + email + "&phone=" + phone + "&source='user'");
                     xmlhttp.onreadystatechange = function () {
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                             var result = xmlhttp.responseText.toString();
