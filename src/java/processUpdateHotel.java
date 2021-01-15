@@ -65,36 +65,34 @@ public class processUpdateHotel extends HttpServlet {
             if (!stars.equals("")) {
                 line = "update hotel set stars=" + stars + " where id=" + hotelID;
                 statement = Con.prepareStatement(line);
-                int row = statement.executeUpdate();
+                statement.executeUpdate();
             }
             if (!DFCC.equals("")) {
                 line = "update hotel set distanceFromCC=" + DFCC + " where id=" + hotelID;
                 statement = Con.prepareStatement(line);
-                int row = statement.executeUpdate();
+                statement.executeUpdate();
             }
             if (!meals.equals("")) {
                 line = "update hotel set includingMeals='" + meals + "' where id=" + hotelID;
                 statement = Con.prepareStatement(line);
-                int row = statement.executeUpdate();
+                statement.executeUpdate();
             }
             if (!contacts.equals("")) {
                 line = "update hotel set Contacts='" + contacts + "' where id=" + hotelID;
                 statement = Con.prepareStatement(line);
-                int row = statement.executeUpdate();
+                statement.executeUpdate();
             }
-            
+
             Part filePart = request.getPart("hotelImg");
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            if (fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
+            if (fileName.length() > 0) {
                 line = "select imgCount from hotel where id = " + hotelID + ";";
                 statement = Con.prepareStatement(line);
                 ResultSet rs = statement.executeQuery();
                 rs.next();
                 InputStream fileContent = filePart.getInputStream();
-                Random random = new Random();
                 File img = new File("C:\\Users\\Kareem Eltemsah\\Documents\\GitHub\\Hotel-Reservation-system-using-jsp-and-servlet\\web\\img",
-                        "H" + hotelID + "_" + (rs.getInt("imgCount")+1) + ".jpg");
-                
+                        "H" + hotelID + "_" + (rs.getInt("imgCount") + 1) + ".jpg");
                 line = "update hotel set imgCount = imgCount + 1 where id = " + hotelID + ";";
                 statement = Con.prepareStatement(line);
                 statement.executeUpdate();

@@ -19,13 +19,20 @@
                 var distance = document.getElementById("distance").value;
                 var meals = document.getElementById("meals").value;
                 var contacts = document.getElementById("contacts").value;
-
+                var img = document.getElementById("img").value;
                 if ((contacts == null || contacts == "" || contacts.trim() === '')
                         && (stars == null || stars == "" || stars.isNaN() == true)
                         && (meals == null || meals == "" || meals.trim() === '')
-                        && (distance == null || distance == "" || distance.isNaN() === true)) {
+                        && (distance == null || distance == "" || distance.isNaN() == true)
+                        && (img.length == 0)) {
                     document.getElementById("show_response").innerHTML = "Change at least 1 field !";
                     return false;
+                } else if (img.length !== 0) {
+                    var extension = img.toString().substring(img.toString().lastIndexOf(".")).toLocaleLowerCase();
+                    if (extension !== ".jpg" && extension !== ".png" && extension !== ".jpeg") {
+                        document.getElementById("show_response").innerHTML = "Invalid file type ! (use jpg/png/jpeg)";
+                        return false;
+                    }
                 }
                 return true;
             }
@@ -36,7 +43,7 @@
             String hotelID = request.getParameter("hotelID");
             String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
             String user = "root";
-            String password = "";
+            String password = "root";
             Connection Con = null;
             Class.forName("com.mysql.jdbc.Driver");
             Con = DriverManager.getConnection(url, user, password);
@@ -88,8 +95,8 @@
                         <input id="contacts" name="contacts" type="text" class="input" placeholder="<%= contacts%>">
                         <span class="bar"></span>
                     </div>
-                        <label>Upload new hotel photo</label><br>
-                        <input type="file" name="hotelImg" style="color: white" /><br>
+                    <label>Upload new hotel photo</label><br>
+                    <input id="img" type="file" name="hotelImg" style="color: white" /><br>
                     <input type="submit" value = "Update" class="btn form-btn btn-purple">
                     <br><br>
                     <label id="show_response"></label>
