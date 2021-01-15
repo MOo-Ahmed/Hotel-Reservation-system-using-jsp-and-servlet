@@ -56,33 +56,36 @@ public class viewRatingAndCmts extends HttpServlet {
             ResultSet RS = statement.executeQuery();
             String output = "";
             while (RS.next()) {
-                output += "<tr><td style=\"color:white ;\"><span>" + RS.getString("user") + ":<br></span>"
-                    + "<span>" + RS.getString("comment") + "</span></td>"
-                    + "<td style=\"color:white ;\"><span>" + RS.getInt("rate") + "</span></td>"
-                    + "</tr>";
+                output += "<tr><td style='color:white ;'><span>" + RS.getString("user") + ":<br></span>"
+                        + "<span>" + RS.getString("comment") + "</span></td>"
+                        + "<td style='color:white ;'><span>" + RS.getInt("rate") + "</span></td>"
+                        + "</tr>";
             }
-            
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>users search result</title>");
             out.println("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'>");
-            out.println("<link rel='stylesheet' href='styles.css'>");        
+            out.println("<link rel='stylesheet' href='styles.css'>");
             out.println("</head>");
             out.println("<body>");
             out.println("<main>");
             out.println("<section class='Log'>");
             out.println("<div class='container'>");
-            
+
             out.println("<h3 class='heading' align=center>Ratings and comments</h3>"
                     + "<br><br>"
                     + "<div class='booking'>"
                     + "<br>"
-                    + "<table class=\"center\" width=80% cellspacing=15>" 
+                    + "<table class='center' width=80% cellspacing=15>"
                     + output
                     + "</table>"
-                    + "</div>");
-            
+                    + "</div>"
+                    + "<a href='hotelHome.jsp?hotelID=" + hotelID + "' class='btn form-btn btn-purple'>back to hotel home"
+                    + "<span class='dots'><i class='fas fa-ellipsis-h'></i></span>"
+                    + "</a>");
+
             out.println("</div>");
             out.println("</section>");
             out.println("</main>");

@@ -139,7 +139,7 @@ public class viewHotel extends HttpServlet {
                 temp += "<span class='fa fa-star' style=\"color:grey ;\"></span>";
         }
         reviewsData = temp 
-                + "<p style=\"color:white ;\">" + rating + " average based on " + reviewsCounter + " reviews.</p>"
+                + "<p style=\"color:white ;\">" + String.format("%.1f", rating) + " average based on " + reviewsCounter + " reviews.</p>"
                 + "<div class='input-group'>"
                 + "<input id='comment' name='comment' type='text' class='input' placeholder='comment' required>"
                 + "<span class='bar'></span>"

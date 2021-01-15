@@ -30,7 +30,7 @@ and open the template in the editor.
         <main>
             <div class="container">
                 <br>
-            <h3 class="heading" align="center">Search for clients </h3><br>
+                <h3 class="heading" align="center">Search for clients </h3><br>
                 <br>
                 <form action="processSearchUsers" class="form Log-form" onsubmit="return validateSearchUsersForm()">
                     <br>
@@ -44,6 +44,9 @@ and open the template in the editor.
                     <br><br>
                     <label id="show_response"></label>
                 </form>
+                <a href="adminHome" class="btn form-btn btn-purple">back to home
+                    <span class="dots"><i class="fas fa-ellipsis-h"></i></span>
+                </a>
             </div>
         </main>
     </body>

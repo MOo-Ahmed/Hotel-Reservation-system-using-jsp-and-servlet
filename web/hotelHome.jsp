@@ -230,11 +230,6 @@
                     <input type="submit" value="View Hotel Reviews" class="btn form-btn btn-purple">
                 </form>
             </div>
-            <div>
-                <form action="searchUsers.jsp">
-                    <input type="submit" value="Search for client" class="btn form-btn btn-purple">
-                </form>
-            </div>
             <br><br><br>
             <section class="Log">
                 <div class="container">

@@ -3,10 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/FCAI-CU%20material/4-1/Internet%20Applications/Project/Hotel%20Reservation%20system/src/java/processUpdateUserInfo.java</file>
-            <file>file:/D:/FCAI-CU%20material/4-1/Internet%20Applications/Project/Hotel%20Reservation%20system/src/java/processViewReservations.java</file>
-            <file>file:/D:/FCAI-CU%20material/4-1/Internet%20Applications/Project/Hotel%20Reservation%20system/web/customerHome.jsp</file>
-            <file>file:/D:/FCAI-CU%20material/4-1/Internet%20Applications/Project/Hotel%20Reservation%20system/src/java/adminHome.java</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/src/java/processSearchUsers.java</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/web/customerHome.jsp</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/src/java/adminHome.java</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/src/java/processViewReservations.java</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/web/addRoom.jsp</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/web/updateRooms.jsp</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/web/searchUsers.jsp</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/src/java/viewHotel.java</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/src/java/viewRatingAndCmts.java</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/web/hotelUpdate.jsp</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/web/hotelHome.jsp</file>
+            <file>file:/C:/Users/Kareem%20Eltemsah/Documents/GitHub/Hotel-Reservation-system-using-jsp-and-servlet/web/Login.jsp</file>
         </group>
     </open-files>
 </project-private>

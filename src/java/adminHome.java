@@ -149,7 +149,9 @@ public class adminHome extends HttpServlet {
 
             out.println("<h1>" + username + "</h1>");
             out.println("<a href='signOut' class='btn form-btn btn-purple'>Logout "
-                    + "<span class='dots'><i class='fas fa-ellipsis-h'></i></span></a><br><br><br>");
+                    + "<span class='dots'><i class='fas fa-ellipsis-h'></i></span></a><br>"
+                    + "<a href='searchUsers.jsp' class='btn form-btn btn-purple'>Search for users"
+                    + "<span class='dots'><i class='fas fa-ellipsis-h'></i></span></a><br><br>");
 
             out.println(r);
             out.println(form);

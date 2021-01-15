@@ -55,9 +55,9 @@ public class processSearchUsers extends HttpServlet {
             String output = "";
             while (RS.next()) {
                 output += "<tr>"
-                        + "<td align='center'><span style=\"color:white ;\">" + RS.getString("name") + "</span></td>"
-                        + "<td align='center'><span style=\"color:white ;\">" + RS.getString("email") + "</span></td>"
-                        + "<td align='center'><span style=\"color:white ;\">" + RS.getString("phoneNumber") + "</span></td>"
+                        + "<td align='center'><span style='color:white ;'>" + RS.getString("name") + "</span></td>"
+                        + "<td align='center'><span style='color:white ;'>" + RS.getString("email") + "</span></td>"
+                        + "<td align='center'><span style='color:white ;'>" + RS.getString("phoneNumber") + "</span></td>"
                         + "</tr>";
             }
 
@@ -77,11 +77,14 @@ public class processSearchUsers extends HttpServlet {
                     + "<h3 class='heading' align='center'>users have (" + name + ") in their name</h3>"
                     + "<br><br>"
                     + "<div class='booking'>"
-                    + "<table class=\"center\" width=80% cellspacing=15>"
-                    + "<tr style=\"color:white ;\"><th>Name</th><th>Email</th><th>Phone</th></tr>"
+                    + "<table class='center' width=80% cellspacing=15>"
+                    + "<tr style='color:white ;'><th>Name</th><th>Email</th><th>Phone</th></tr>"
                     + output
                     + "</table>"
-                    + "</div>");
+                    + "</div>"
+                    + "<a href='adminHome' class='btn form-btn btn-purple'>back to home"
+                    + "<span class='dots'><i class='fas fa-ellipsis-h'></i></span>"
+                    + "</a>");
 
             out.println("</div>");
             out.println("</section>");

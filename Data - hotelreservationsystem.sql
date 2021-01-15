@@ -22,22 +22,6 @@ SET time_zone = "+00:00";
 --
 
 --
--- Dumping data for table `city`
---
-
-INSERT INTO `city` (`id`, `name`, `countryID`) VALUES
-(1, 'Cairo', 1),
-(2, 'Sharm Al-Sheikh', 1),
-(3, 'Dubai', 5),
-(4, 'Paris', 2),
-(5, 'Munich', 10),
-(6, 'Mumbai', 7),
-(7, 'Moscow', 9),
-(8, 'Jeddah', 6),
-(9, 'Mecca', 6),
-(10, 'Switzerland', 4);
-
---
 -- Dumping data for table `country`
 --
 
@@ -54,6 +38,22 @@ INSERT INTO `country` (`id`, `name`) VALUES
 (3, 'USA');
 
 --
+-- Dumping data for table `city`
+--
+
+INSERT INTO `city` (`id`, `name`, `countryID`) VALUES
+(1, 'Cairo', 1),
+(2, 'Sharm Al-Sheikh', 1),
+(3, 'Dubai', 5),
+(4, 'Paris', 2),
+(5, 'Munich', 10),
+(6, 'Mumbai', 7),
+(7, 'Moscow', 9),
+(8, 'Jeddah', 6),
+(9, 'Mecca', 6),
+(10, 'Switzerland', 4);
+
+--
 -- Dumping data for table `hotel`
 --
 
@@ -68,6 +68,17 @@ INSERT INTO `hotel` (`id`, `name`, `stars`, `distanceFromCC`, `includingMeals`, 
 (8, 'Hôtel Gramont', 5, 10, 'Yes', 4, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.3520740572803!2d2.339221584359881!3d48.87056447928872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e3a33a342b9%3A0xe6a64962dc5dedcd!2sH%C3%B4tel%20Gramont!5e0!3m2!1sar!2seg!4v1610640462933!5m2!1sar!2seg', NULL, 3),
 (9, 'Raffles Makkah Palace', 4, 10, 'Yes', 9, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3714.243804619872!2d39.82733468510973!3d21.419659985787938!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c21b4ced818a17%3A0xabbb8ea73849812c!2z2LHYp9mB2YTYsiDZgti12LEg2YXZg9ip!5e0!3m2!1sar!2seg!4v1610640512740!5m2!1sar!2seg', NULL, 3),
 (10, 'Hilton Suites Makkah', 3, 10, 'Yes', 9, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3714.204947869834!2d39.82387188510985!3d21.421187885787102!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c204b679347f05%3A0x50f5f4304df897e6!2z2YXZg9ipINmH2YrZhNiq2YjZhiDZhNmE2KfYrNmG2K3YqQ!5e0!3m2!1sar!2seg!4v1610640546235!5m2!1sar!2seg', NULL, 3);
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `email`, `username`, `password`, `phoneNumber`, `isAdmin`) VALUES
+(1, 'Mohamed Ahmed Abdelnabey', 'engr2017@gmail.com', 'MOHAMED123', 'bP$7f@oZcY', '+201001001234', 0),
+(2, 'Kareem Ahmed Eltemsah', 'temsah@gmail.com', 'K-Temsah11', '100100', '+201101001234', 0),
+(3, 'Yousef Osama Sayed', 'y.osama@gamil.com', 'Yousef Elkady', '666666', '+201201001234', 0),
+(4, 'Amr Mohamed Abdelnabey', 'm.a3bdelnabi@gmail.com', 'AmrMohamed', '100100', '01511223030', 1),
+(5, 'Mohamed Ashraf', 'mesoul279@gmail.com', 'Ashroof', 'dG#9rHZqb2', '011430618917', 0);
 
 --
 -- Dumping data for table `hoteladmin`
@@ -93,6 +104,14 @@ INSERT INTO `notification` (`id`, `content`, `hotelID`, `isRead`, `createdAt`) V
 
 INSERT INTO `reservation` (`id`, `userID`, `hotelID`, `startDate`, `endDate`, `ts_createdAt`, `isPaid`, `checkInDate`, `checkOutDate`) VALUES
 (13, 5, 3, '2021-01-17', '2021-01-22', '2021-01-15 14:54:35', 'Yes', '2021-01-15', NULL);
+
+--
+-- Dumping data for table `roomtype`
+--
+
+INSERT INTO `roomtype` (`id`, `name`) VALUES
+(1, 'Adults'),
+(2, 'Children');
 
 --
 -- Dumping data for table `review`
@@ -169,25 +188,6 @@ INSERT INTO `room` (`id`, `name`, `hotelID`, `roomTypeID`, `price`, `facilities`
 INSERT INTO `roomreservation` (`id`, `reservationID`, `roomID`) VALUES
 (16, 13, 14),
 (17, 13, 15);
-
---
--- Dumping data for table `roomtype`
---
-
-INSERT INTO `roomtype` (`id`, `name`) VALUES
-(1, 'Adults'),
-(2, 'Children');
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `name`, `email`, `username`, `password`, `phoneNumber`, `isAdmin`) VALUES
-(1, 'Mohamed Ahmed Abdelnabey', 'engr2017@gmail.com', 'MOHAMED123', 'bP$7f@oZcY', '+201001001234', 0),
-(2, 'Kareem Ahmed Eltemsah', 'temsah@gmail.com', 'K-Temsah11', '100100', '+201101001234', 0),
-(3, 'Yousef Osama Sayed', 'y.osama@gamil.com', 'Yousef Elkady', '666666', '+201201001234', 0),
-(4, 'Amr Mohamed Abdelnabey', 'm.a3bdelnabi@gmail.com', 'AmrMohamed', '100100', '01511223030', 1),
-(5, 'Mohamed Ashraf', 'mesoul279@gmail.com', 'Ashroof', 'dG#9rHZqb2', '011430618917', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
