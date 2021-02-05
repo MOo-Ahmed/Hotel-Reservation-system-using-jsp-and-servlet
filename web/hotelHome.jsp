@@ -1,3 +1,7 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
 <!doctype html>
 <html lang="en">
     <head>
@@ -186,7 +190,7 @@
                         //var count = 3 ;
                         //document.getElementById("notifCount").innerHTML = "&nbsp;&nbsp;" + count;
                         document.getElementById("notifications").innerHTML = result;
-
+                        document.getElementById("notifCount").innerHTML = "";
                     }
                 }
             }
@@ -201,8 +205,26 @@
                 <div class="container">
                     <nav class="nav">
                         <div class="hamburger-menu" onclick="sendajaxfetchNotifications()">
-
-                            <i class="fas fa-bell"><label id='notifCount'></label></i>
+                            <%
+                                String url = "jdbc:mysql://localhost:3306/hotelreservationsystem";
+                                String user = "root";
+                                String password = "root";
+                                Connection Con = null;
+                                Class.forName("com.mysql.jdbc.Driver");
+                                Con = DriverManager.getConnection(url, user, password);
+                                String line = "SELECT count(*) as nCount FROM notification where hotelID = " + hotelID
+                                        + " and isRead = 0";
+                                PreparedStatement statement = Con.prepareStatement(line);
+                                ResultSet RS = statement.executeQuery();
+                                int count = 0;
+                                if (RS.next())
+                                    count = RS.getInt("nCount");%>
+                                    <i class="fas fa-bell"><label id='notifCount'>
+                                        <%
+                                            if (count > 0)
+                                                out.print(count);
+                                        %>
+                                        </label></i>
                             <i class="fas fa-times"></i>
                         </div>
                         <div id ='notifications'  class="nav-list">
